@@ -25,20 +25,20 @@ public class Service {
 	@Column(name = "star", nullable = false)
 	private int star;
 
-	//DEPARTAMENTO
+	// DEPARTAMENTO
 	@ManyToOne
 	@JoinColumn(name = "department_id", nullable = false)
 	private Department department;
 
-	//PROVINCIA
+	// PROVINCIA
 	@ManyToOne
 	@JoinColumn(name = "province_id", nullable = false)
 	private Province province;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "service_type_id", nullable = false)
 	private ServiceType serviceType;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -93,6 +93,14 @@ public class Service {
 
 	public void setProvince(Province province) {
 		this.province = province;
+	}
+
+	public ServiceType getServiceType() {
+		return serviceType;
+	}
+
+	public void setServiceType(ServiceType serviceType) {
+		this.serviceType = serviceType;
 	}
 
 }

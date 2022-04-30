@@ -30,11 +30,20 @@
 					<p:outputLabel value="Nombre del Servicio:" for="txtNameService" />
 					<p:inputText id="txtNameService" required="true" maxlength="45"
 						value="#{serviceController.service.nameService}" />
-						
-					<p:outputLabel value="Contacto (+51):" for="txtContact" />
-					<p:inputText id="txtContact" required="true" maxlength="100"
-						value="#{serviceController.service.contact}" />
 					
+					<p:outputLabel for="cbServiceType" value="Tipo de Servicio:"/>
+					<p:selectOneMenu id="cbServiceType" required="true" effect="drop"
+						value="#{serviceController.serviceType}"
+						converter="omnifaces.SelectItemsConverter">
+						
+						<f:selectItem itemLabel="Seleccione tipo de servicio"
+							noSelectionOption="true" itemValue=""/>
+						
+						<f:selectItems value="#{serviceController.serviceTypes}"
+							var="serviceType" itemLabel="#{serviceType.name}"
+							itemValue="#{serviceType}"/>
+							
+					</p:selectOneMenu>				
 					
 					<p:outputLabel for="cbDepartment" value="Departamento:"/>
 					<p:selectOneMenu id="cbDepartment" required="true" effect="drop"
@@ -68,10 +77,13 @@
 					<p:outputLabel value="Dirección:" for="txtAddress" />
 					<p:inputText id="txtAddress" required="true" maxlength="100"
 						value="#{serviceController.service.address}" />
+						
+					<p:outputLabel value="Contacto (+51):" for="txtContact" />
+					<p:inputText id="txtContact" required="true" maxlength="100"
+						value="#{serviceController.service.contact}" />
 					
 				</p:panelGrid>
-
-
+					
 			</h:form>
 		</ui:define>
 	</ui:composition>

@@ -22,14 +22,14 @@
 			    		/>
 			    		
 			    		<p:commandButton value="Editar" icon="ui-icon-disk"
-			    		action="#{serviceController.editService()}"
+			    		action="#{serviceController.editHostingService()}"
 			    		ajax="false"
 			    		/>
 			    		
 			    		<p:commandButton value="Eliminar" icon="ui-icon-disk"
-			    		action="#{serviceController.deleteService()}"
+			    		action="#{serviceController.deleteHostingService()}"
 			    		ajax="true"
-			    		update=":frm:datTabServices :frm:men"
+			    		update=":frm:datTabHostingServices :frm:men"
 			    		/>
 			    		
 			    	</f:facet>      
@@ -37,11 +37,11 @@
 			    </p:toolbar>
 			
 			
-				<p:dataTable id="datTabServices"
+				<p:dataTable id="datTabHostingServices"
 					emptyMessage="No existen servicios registrados"
 					value="#{serviceController.hostingServices}" var="service"
 					rowKey="#{service.id}" selectionMode="single"
-					selection="#{serviceController.serviceSelected}">
+					selection="#{serviceController.serviceHostingSelected}">
 					
 					<f:facet name="header">
             		Servicios de Alojamiento
@@ -74,11 +74,34 @@
 				</p:dataTable>
 				
 				
+				
+				<p:toolbar>
+			    	<f:facet name="right">
+			    		<p:commandButton value="Nuevo" icon="ui-icon-disk"
+			    		 action="#{serviceController.newService()}"
+			    		 ajax="false"
+			    		/>
+			    		
+			    		<p:commandButton value="Editar" icon="ui-icon-disk"
+			    		action="#{serviceController.editFoodService()}"
+			    		ajax="false"
+			    		/>
+			    		
+			    		<p:commandButton value="Eliminar" icon="ui-icon-disk"
+			    		action="#{serviceController.deleteFoodService()}"
+			    		ajax="true"
+			    		update=":frm:datTabFoodServices :frm:men"
+			    		/>
+			    		
+			    	</f:facet>      
+			    
+			    </p:toolbar>
+				
 				<p:dataTable id="datTabFoodServices"
 					emptyMessage="No existen servicios registrados"
 					value="#{serviceController.foodServices}" var="service"
 					rowKey="#{service.id}" selectionMode="single"
-					selection="#{serviceController.serviceSelected}">
+					selection="#{serviceController.serviceFoodSelected}">
 					
 					<f:facet name="header">
             		Servicios de Alimentación
@@ -110,14 +133,37 @@
 
 				</p:dataTable>
 				
+				
+				<p:toolbar>
+			    	<f:facet name="right">
+			    		<p:commandButton value="Nuevo" icon="ui-icon-disk"
+			    		 action="#{serviceController.newService()}"
+			    		 ajax="false"
+			    		/>
+			    		
+			    		<p:commandButton value="Editar" icon="ui-icon-disk"
+			    		action="#{serviceController.editTransportService()}"
+			    		ajax="false"
+			    		/>
+			    		
+			    		<p:commandButton value="Eliminar" icon="ui-icon-disk"
+			    		action="#{serviceController.deleteTransportService()}"
+			    		ajax="true"
+			    		update=":frm:datTabTransportServices :frm:men"
+			    		/>
+			    		
+			    	</f:facet>      
+			    
+			    </p:toolbar>
+				
 				<p:dataTable id="datTabTransportServices"
 					emptyMessage="No existen servicios registrados"
 					value="#{serviceController.transportServices}" var="service"
 					rowKey="#{service.id}" selectionMode="single"
-					selection="#{serviceController.serviceSelected}">
+					selection="#{serviceController.serviceTransportSelected}">
 					
 					<f:facet name="header">
-            		Servicios de Alimentación
+            		Servicios de Movidad
         			</f:facet>
         			
 					<p:column headerText="Nombre del servicio">

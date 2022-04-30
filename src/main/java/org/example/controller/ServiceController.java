@@ -11,12 +11,13 @@ import javax.inject.Named;
 
 import org.example.business.DepartmentBusiness;
 import org.example.business.ServiceBusiness;
+import org.example.business.ServiceTypeBusiness;
 import org.example.business.ProvinceBusiness;
 import org.example.entities.Department;
 import org.example.entities.Service;
+import org.example.entities.ServiceType;
 import org.example.entities.Province;
 import org.example.util.Message;
-import org.primefaces.event.SelectEvent;
 
 @Named
 @SessionScoped
@@ -25,14 +26,18 @@ public class ServiceController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private ServiceBusiness ServiceBusiness;
+	private ServiceBusiness serviceBusiness;
 	@Inject
 	private DepartmentBusiness departmentBusiness;
 	@Inject
 	private ProvinceBusiness provinceBusiness;
+	@Inject
+	private ServiceTypeBusiness serviceTypeBusiness;
 
 	private Service service;
-	private Service serviceSelected;
+	private Service serviceHostingSelected;
+	private Service serviceFoodSelected;
+	private Service serviceTransportSelected;
 	private List<Service> services;
 	private List<Service> hostingServices;
 	private List<Service> foodServices;
@@ -44,10 +49,16 @@ public class ServiceController implements Serializable {
 	private Province province;
 	private List<Province> provinces;
 
+	private ServiceType serviceType;
+	private List<ServiceType> serviceTypes;
+
 	@PostConstruct
 	public void init() {
 		service = new Service();
-		serviceSelected = new Service();
+		serviceHostingSelected = new Service();
+		serviceFoodSelected = new Service();
+		serviceTransportSelected = new Service();
+		
 		services = new ArrayList<>();
 		hostingServices = new ArrayList<>();
 		foodServices = new ArrayList<>();
@@ -58,41 +69,19 @@ public class ServiceController implements Serializable {
 
 		province = new Province();
 		provinces = new ArrayList<>();
+		
+		serviceType = new ServiceType();
+		serviceTypes = new ArrayList<>();
 
 		getAllService();
-		getAllHostingService();
-		getAllFoodService();
-		getAllTransportService();
-		
 	}
 
 	public void getAllService() {
 		try {
-			services = ServiceBusiness.getAll();
-		} catch (Exception e) {
-
-		}
-	}
-	
-	public void getAllHostingService() {
-		try {
-			hostingServices = ServiceBusiness.getAllHostingServices();
-		} catch (Exception e) {
-
-		}
-	}
-	
-	public void getAllFoodService() {
-		try {
-			foodServices = ServiceBusiness.getAllFoodServices();
-		} catch (Exception e) {
-
-		}
-	}
-	
-	public void getAllTransportService() {
-		try {
-			transportServices = ServiceBusiness.getAllTransportServices();
+			services = serviceBusiness.getAll();
+			hostingServices = serviceBusiness.getAllHostingServices();
+			foodServices = serviceBusiness.getAllFoodServices();
+			transportServices = serviceBusiness.getAllTransportServices();
 		} catch (Exception e) {
 
 		}
@@ -101,6 +90,7 @@ public class ServiceController implements Serializable {
 	public String newService() {
 		try {
 			this.departments = departmentBusiness.getAllDepartment();
+			this.serviceTypes = serviceTypeBusiness.getAll();
 			this.resetForm();
 		} catch (Exception e) {
 			Message.messageError("Error ProductController:" + e.getMessage());
@@ -115,13 +105,15 @@ public class ServiceController implements Serializable {
 			if (service.getId() != null) {
 				this.service.setDepartment(department);
 				this.service.setProvince(province);
-				this.ServiceBusiness.update(service);
+				this.service.setServiceType(serviceType);
+				this.serviceBusiness.update(service);
 				Message.messageInfo("Servicio actualizado exitosamente");
 			} else {
 				this.service.setStar(1);
 				this.service.setDepartment(department);
 				this.service.setProvince(province);
-				this.ServiceBusiness.insert(service);
+				this.service.setServiceType(serviceType);
+				this.serviceBusiness.insert(service);
 				Message.messageInfo("Servicio agregado exitosamente");
 			}
 			this.getAllService();
@@ -133,13 +125,50 @@ public class ServiceController implements Serializable {
 		return view;
 	}
 
-	public String editService() {
+	public String editHostingService() {
 		String view = "";
 		try {
-			if (this.serviceSelected != null) {
-				this.service = serviceSelected;
+			if (this.serviceHostingSelected != null) {
+				this.service = serviceHostingSelected;
 				this.departments = departmentBusiness.getAllDepartment();
 				this.provinces = provinceBusiness.getAllProvince();
+				this.serviceTypes = serviceTypeBusiness.getAll();
+				view = "/services/insert";
+			} else {
+				Message.messageInfo("Debe seleccionar un servicio");
+			}
+		} catch (Exception e) {
+			Message.messageError("Error ProductController:" + e.getMessage());
+		}
+		return view;
+	}
+	
+	public String editFoodService() {
+		String view = "";
+		try {
+			if (this.serviceFoodSelected != null) {
+				this.service = serviceFoodSelected;
+				this.departments = departmentBusiness.getAllDepartment();
+				this.provinces = provinceBusiness.getAllProvince();
+				this.serviceTypes = serviceTypeBusiness.getAll();
+				view = "/services/insert";
+			} else {
+				Message.messageInfo("Debe seleccionar un servicio");
+			}
+		} catch (Exception e) {
+			Message.messageError("Error ProductController:" + e.getMessage());
+		}
+		return view;
+	}
+	
+	public String editTransportService() {
+		String view = "";
+		try {
+			if (this.serviceTransportSelected != null) {
+				this.service = serviceTransportSelected;
+				this.departments = departmentBusiness.getAllDepartment();
+				this.provinces = provinceBusiness.getAllProvince();
+				this.serviceTypes = serviceTypeBusiness.getAll();
 				view = "/services/insert";
 			} else {
 				Message.messageInfo("Debe seleccionar un servicio");
@@ -150,12 +179,46 @@ public class ServiceController implements Serializable {
 		return view;
 	}
 
-	public String deleteService() {
+	public String deleteHostingService() {
 		String view = "";
 		try {
-			if (this.serviceSelected != null) {
-				this.service = serviceSelected;
-				ServiceBusiness.delete(service);
+			if (this.serviceHostingSelected != null) {
+				this.service = serviceHostingSelected;
+				serviceBusiness.delete(service);
+				getAllService();
+				view = "/services/list";
+			} else {
+				Message.messageInfo("Debe seleccionar un servicio");
+			}
+		} catch (Exception e) {
+			Message.messageError("Error ProductController:" + e.getMessage());
+		}
+		return view;
+	}
+	
+	public String deleteFoodService() {
+		String view = "";
+		try {
+			if (this.serviceFoodSelected != null) {
+				this.service = serviceFoodSelected;
+				serviceBusiness.delete(service);
+				getAllService();
+				view = "/services/list";
+			} else {
+				Message.messageInfo("Debe seleccionar un servicio");
+			}
+		} catch (Exception e) {
+			Message.messageError("Error ProductController:" + e.getMessage());
+		}
+		return view;
+	}
+	
+	public String deleteTransportService() {
+		String view = "";
+		try {
+			if (this.serviceTransportSelected != null) {
+				this.service = serviceTransportSelected;
+				serviceBusiness.delete(service);
 				getAllService();
 				view = "/services/list";
 			} else {
@@ -169,15 +232,14 @@ public class ServiceController implements Serializable {
 
 	public void resetForm() {
 		service = new Service();
+		serviceHostingSelected = new Service();
+		serviceFoodSelected = new Service();
+		serviceTransportSelected = new Service();
 	}
 
 	public String listService() {
 		this.resetForm();
 		return "list.xhtml";
-	}
-
-	public void selectService(SelectEvent e) {
-		this.serviceSelected = (Service) e.getObject();
 	}
 
 	public void provinceChange() {
@@ -195,14 +257,6 @@ public class ServiceController implements Serializable {
 
 	public void setService(Service service) {
 		this.service = service;
-	}
-
-	public Service getServiceSelected() {
-		return serviceSelected;
-	}
-
-	public void setServiceSelected(Service serviceSelected) {
-		this.serviceSelected = serviceSelected;
 	}
 
 	public List<Service> getServices() {
@@ -267,6 +321,46 @@ public class ServiceController implements Serializable {
 
 	public void setTransportServices(List<Service> transportServices) {
 		this.transportServices = transportServices;
+	}
+
+	public ServiceType getServiceType() {
+		return serviceType;
+	}
+
+	public void setServiceType(ServiceType serviceType) {
+		this.serviceType = serviceType;
+	}
+
+	public List<ServiceType> getServiceTypes() {
+		return serviceTypes;
+	}
+
+	public void setServiceTypes(List<ServiceType> serviceTypes) {
+		this.serviceTypes = serviceTypes;
+	}
+
+	public Service getServiceHostingSelected() {
+		return serviceHostingSelected;
+	}
+
+	public void setServiceHostingSelected(Service serviceHostingSelected) {
+		this.serviceHostingSelected = serviceHostingSelected;
+	}
+
+	public Service getServiceFoodSelected() {
+		return serviceFoodSelected;
+	}
+
+	public void setServiceFoodSelected(Service serviceFoodSelected) {
+		this.serviceFoodSelected = serviceFoodSelected;
+	}
+
+	public Service getServiceTransportSelected() {
+		return serviceTransportSelected;
+	}
+
+	public void setServiceTransportSelected(Service serviceTransportSelected) {
+		this.serviceTransportSelected = serviceTransportSelected;
 	}
 
 }
