@@ -5,12 +5,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "hosting_services")
-public class HostingService {
-	
+@Table(name = "services")
+public class Service {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -22,13 +24,21 @@ public class HostingService {
 	private String address;
 	@Column(name = "star", nullable = false)
 	private int star;
-	@Column(name = "department", nullable = false, length = 100)
-	private String department;
-	@Column(name = "province", nullable = false, length = 100)
-	private String province;
-	@Column(name = "room_price", nullable = false)
-	private double roomPrice;
 
+	//DEPARTAMENTO
+	@ManyToOne
+	@JoinColumn(name = "department_id", nullable = false)
+	private Department department;
+
+	//PROVINCIA
+	@ManyToOne
+	@JoinColumn(name = "province_id", nullable = false)
+	private Province province;
+	
+	@ManyToOne
+	@JoinColumn(name = "service_type_id", nullable = false)
+	private ServiceType serviceType;
+	
 	public Long getId() {
 		return id;
 	}
@@ -69,28 +79,20 @@ public class HostingService {
 		this.star = star;
 	}
 
-	public String getDepartment() {
+	public Department getDepartment() {
 		return department;
 	}
 
-	public void setDepartment(String department) {
+	public void setDepartment(Department department) {
 		this.department = department;
 	}
 
-	public String getProvince() {
+	public Province getProvince() {
 		return province;
 	}
 
-	public void setProvince(String province) {
+	public void setProvince(Province province) {
 		this.province = province;
-	}
-
-	public double getRoomPrice() {
-		return roomPrice;
-	}
-
-	public void setRoomPrice(double roomPrice) {
-		this.roomPrice = roomPrice;
 	}
 
 }

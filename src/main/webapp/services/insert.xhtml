@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+
+	<ui:composition template="/WEB-INF/templates/master.xhtml">
+		<ui:define name="content">
+			<h:form id="frm">
+				<p:growl id="men" />
+
+				<p:toolbar>
+					<f:facet name="right">
+						<p:commandButton value="Guardar Servicio" icon="ui-icon-disk"
+							action="#{serviceController.saveService()}"
+							ajax="false" />
+						<p:commandButton value="Regresar" icon="ui-icon-disk"
+							action="#{serviceController.listService()}"
+							immediate="true"
+							ajax="false" />
+					</f:facet>
+				</p:toolbar>
+
+				<p:panelGrid id="panGridService" columns="2" style="width:100%">
+					
+					<p:outputLabel value="Nombre del Servicio:" for="txtNameService" />
+					<p:inputText id="txtNameService" required="true" maxlength="45"
+						value="#{serviceController.service.nameService}" />
+						
+					<p:outputLabel value="Contacto (+51):" for="txtContact" />
+					<p:inputText id="txtContact" required="true" maxlength="100"
+						value="#{serviceController.service.contact}" />
+					
+					
+					<p:outputLabel for="cbDepartment" value="Departamento:"/>
+					<p:selectOneMenu id="cbDepartment" required="true" effect="drop"
+						value="#{serviceController.department}"
+						converter="omnifaces.SelectItemsConverter">
+						
+						<p:ajax listener="#{serviceController.provinceChange()}"
+							update ="cbProvincia"/>
+						
+						<f:selectItem itemLabel="Seleccione departamento"
+							noSelectionOption="true" itemValue=""/>
+						
+						<f:selectItems value="#{serviceController.departments}"
+							var="department" itemLabel="#{department.name}"
+							itemValue="#{department}"/>
+							
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Provincia:" for="cbProvincia"/>
+					<p:selectOneMenu id="cbProvincia" required="true" effect="drop"
+						value="#{serviceController.province}"
+						converter="omnifaces.SelectItemsConverter">
+						
+						<f:selectItem itemLabel="Seleccione la provincia"
+							noSelectionOption="true" itemValue=""/>
+						<f:selectItems value="#{serviceController.provinces}"
+							var="province" itemLabel="#{province.name}"
+							itemValue="#{province}" />
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Dirección:" for="txtAddress" />
+					<p:inputText id="txtAddress" required="true" maxlength="100"
+						value="#{serviceController.service.address}" />
+					
+				</p:panelGrid>
+
+
+			</h:form>
+		</ui:define>
+	</ui:composition>
+
+</body>
+</html>

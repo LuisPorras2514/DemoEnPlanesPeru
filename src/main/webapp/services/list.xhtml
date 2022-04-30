@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+
+	<ui:composition template="/WEB-INF/templates/master.xhtml">
+		<ui:define name="content">
+			<h:form id="frm">
+			
+			    <p:growl id="men"/>			    
+			    
+			    <p:toolbar>
+			    	<f:facet name="right">
+			    		<p:commandButton value="Nuevo" icon="ui-icon-disk"
+			    		 action="#{serviceController.newService()}"
+			    		 ajax="false"
+			    		/>
+			    		
+			    		<p:commandButton value="Editar" icon="ui-icon-disk"
+			    		action="#{serviceController.editService()}"
+			    		ajax="false"
+			    		/>
+			    		
+			    		<p:commandButton value="Eliminar" icon="ui-icon-disk"
+			    		action="#{serviceController.deleteService()}"
+			    		ajax="true"
+			    		update=":frm:datTabServices :frm:men"
+			    		/>
+			    		
+			    	</f:facet>      
+			    
+			    </p:toolbar>
+			
+			
+				<p:dataTable id="datTabServices"
+					emptyMessage="No existen servicios registrados"
+					value="#{serviceController.hostingServices}" var="service"
+					rowKey="#{service.id}" selectionMode="single"
+					selection="#{serviceController.serviceSelected}">
+					
+					<f:facet name="header">
+            		Servicios de Alojamiento
+        			</f:facet>
+        			
+					<p:column headerText="Nombre del servicio">
+						<p:outputLabel value="#{service.nameService}" />
+					</p:column>
+					
+					<p:column headerText="Contacto">
+						<p:outputLabel value="#{service.contact}" />
+					</p:column>
+					
+					<p:column headerText="Departamento">
+						<p:outputLabel value="#{service.department.name}" />
+					</p:column>
+					
+					<p:column headerText="Provincia">
+						<p:outputLabel value="#{service.province.name}" />
+					</p:column>
+					
+					<p:column headerText="Direccion">
+						<p:outputLabel value="#{service.address}" />
+					</p:column>
+					
+					<p:column headerText="Estrellas">
+						<p:outputLabel value="#{service.star}" />
+					</p:column>
+
+				</p:dataTable>
+				
+				
+				<p:dataTable id="datTabFoodServices"
+					emptyMessage="No existen servicios registrados"
+					value="#{serviceController.foodServices}" var="service"
+					rowKey="#{service.id}" selectionMode="single"
+					selection="#{serviceController.serviceSelected}">
+					
+					<f:facet name="header">
+            		Servicios de Alimentación
+        			</f:facet>
+        			
+					<p:column headerText="Nombre del servicio">
+						<p:outputLabel value="#{service.nameService}" />
+					</p:column>
+					
+					<p:column headerText="Contacto">
+						<p:outputLabel value="#{service.contact}" />
+					</p:column>
+					
+					<p:column headerText="Departamento">
+						<p:outputLabel value="#{service.department.name}" />
+					</p:column>
+					
+					<p:column headerText="Provincia">
+						<p:outputLabel value="#{service.province.name}" />
+					</p:column>
+					
+					<p:column headerText="Direccion">
+						<p:outputLabel value="#{service.address}" />
+					</p:column>
+					
+					<p:column headerText="Estrellas">
+						<p:outputLabel value="#{service.star}" />
+					</p:column>
+
+				</p:dataTable>
+				
+				<p:dataTable id="datTabTransportServices"
+					emptyMessage="No existen servicios registrados"
+					value="#{serviceController.transportServices}" var="service"
+					rowKey="#{service.id}" selectionMode="single"
+					selection="#{serviceController.serviceSelected}">
+					
+					<f:facet name="header">
+            		Servicios de Alimentación
+        			</f:facet>
+        			
+					<p:column headerText="Nombre del servicio">
+						<p:outputLabel value="#{service.nameService}" />
+					</p:column>
+					
+					<p:column headerText="Contacto">
+						<p:outputLabel value="#{service.contact}" />
+					</p:column>
+					
+					<p:column headerText="Departamento">
+						<p:outputLabel value="#{service.department.name}" />
+					</p:column>
+					
+					<p:column headerText="Provincia">
+						<p:outputLabel value="#{service.province.name}" />
+					</p:column>
+					
+					<p:column headerText="Direccion">
+						<p:outputLabel value="#{service.address}" />
+					</p:column>
+					
+					<p:column headerText="Estrellas">
+						<p:outputLabel value="#{service.star}" />
+					</p:column>
+
+				</p:dataTable>
+
+			</h:form>
+		</ui:define>
+	</ui:composition>
+
+</body>
+</html>
