@@ -9,14 +9,20 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.example.business.CarBusiness;
 import org.example.business.DepartmentBusiness;
+import org.example.business.PlateBusiness;
 import org.example.business.ServiceBusiness;
 import org.example.business.ServiceTypeBusiness;
 import org.example.business.ProvinceBusiness;
+import org.example.business.RoomBusiness;
+import org.example.entities.Car;
 import org.example.entities.Department;
+import org.example.entities.Plate;
 import org.example.entities.Service;
 import org.example.entities.ServiceType;
 import org.example.entities.Province;
+import org.example.entities.Room;
 import org.example.util.Message;
 
 @Named
@@ -33,7 +39,14 @@ public class ServiceController implements Serializable {
 	private ProvinceBusiness provinceBusiness;
 	@Inject
 	private ServiceTypeBusiness serviceTypeBusiness;
+	@Inject
+	private RoomBusiness roomBusiness;
+	@Inject
+	private CarBusiness carBusiness;
+	@Inject
+	private PlateBusiness plateBusiness;
 
+	// VARIABLES
 	private Service service;
 	private Service serviceHostingSelected;
 	private Service serviceFoodSelected;
@@ -52,13 +65,26 @@ public class ServiceController implements Serializable {
 	private ServiceType serviceType;
 	private List<ServiceType> serviceTypes;
 
+	private List<Room> rooms;
+	private Room room;
+
+	private List<Car> cars;
+	private Car car;
+
+	private List<Plate> plates;
+	private Plate plate;
+
+	private int contador;
+
+	// METODOS
+
 	@PostConstruct
 	public void init() {
 		service = new Service();
 		serviceHostingSelected = new Service();
 		serviceFoodSelected = new Service();
 		serviceTransportSelected = new Service();
-		
+
 		services = new ArrayList<>();
 		hostingServices = new ArrayList<>();
 		foodServices = new ArrayList<>();
@@ -69,9 +95,20 @@ public class ServiceController implements Serializable {
 
 		province = new Province();
 		provinces = new ArrayList<>();
-		
+
 		serviceType = new ServiceType();
 		serviceTypes = new ArrayList<>();
+
+		rooms = new ArrayList<>();
+		room = new Room();
+
+		plates = new ArrayList<>();
+		plate = new Plate();
+
+		cars = new ArrayList<>();
+		car = new Car();
+
+		contador = 0;
 
 		getAllService();
 	}
@@ -91,11 +128,38 @@ public class ServiceController implements Serializable {
 		try {
 			this.departments = departmentBusiness.getAllDepartment();
 			this.serviceTypes = serviceTypeBusiness.getAll();
-			this.resetForm();
 		} catch (Exception e) {
 			Message.messageError("Error ProductController:" + e.getMessage());
 		}
 		return "insert.xhtml";
+	}
+
+	public String newProductService() {
+		String view = "";
+		try {
+			if (serviceType.getId() == 1) {
+				view = "/services/insert-room";
+			} else if (serviceType.getId() == 2) {
+				view = "/services/insert-plate";
+			} else if (serviceType.getId() == 3) {
+				view = "/services/insert-car";
+			}
+		} catch (Exception e) {
+			Message.messageError("Error ProductController:" + e.getMessage());
+		}
+		return view;
+	}
+
+	// GUARDAR PRODUCTOS
+
+	public void saveRoom() {
+		if (contador < 3) {
+			this.rooms.add(room);
+			this.room = new Room();
+			contador++;
+		} else {
+			Message.messageInfo("Solo puedes agregar 3 habitaciones por servicio");
+		}
 	}
 
 	// GUARDAR
@@ -113,12 +177,19 @@ public class ServiceController implements Serializable {
 				this.service.setDepartment(department);
 				this.service.setProvince(province);
 				this.service.setServiceType(serviceType);
+				
 				this.serviceBusiness.insert(service);
+				
+				for (Room rs : rooms) {
+					rs.setService(service);
+					this.roomBusiness.insert(rs);
+				}
+				
 				Message.messageInfo("Servicio agregado exitosamente");
 			}
 			this.getAllService();
 			this.resetForm();
-			view = "list";
+			view = "/services/list";
 		} catch (Exception e) {
 			Message.messageError("Error ProductController:" + e.getMessage());
 		}
@@ -142,7 +213,7 @@ public class ServiceController implements Serializable {
 		}
 		return view;
 	}
-	
+
 	public String editFoodService() {
 		String view = "";
 		try {
@@ -160,7 +231,7 @@ public class ServiceController implements Serializable {
 		}
 		return view;
 	}
-	
+
 	public String editTransportService() {
 		String view = "";
 		try {
@@ -195,7 +266,7 @@ public class ServiceController implements Serializable {
 		}
 		return view;
 	}
-	
+
 	public String deleteFoodService() {
 		String view = "";
 		try {
@@ -212,7 +283,7 @@ public class ServiceController implements Serializable {
 		}
 		return view;
 	}
-	
+
 	public String deleteTransportService() {
 		String view = "";
 		try {
@@ -235,6 +306,11 @@ public class ServiceController implements Serializable {
 		serviceHostingSelected = new Service();
 		serviceFoodSelected = new Service();
 		serviceTransportSelected = new Service();
+		
+		rooms = new ArrayList<>();
+		room = new Room();
+		
+		contador = 0;
 	}
 
 	public String listService() {
@@ -361,6 +437,62 @@ public class ServiceController implements Serializable {
 
 	public void setServiceTransportSelected(Service serviceTransportSelected) {
 		this.serviceTransportSelected = serviceTransportSelected;
+	}
+
+	public List<Room> getRooms() {
+		return rooms;
+	}
+
+	public void setRooms(List<Room> rooms) {
+		this.rooms = rooms;
+	}
+
+	public Room getRoom() {
+		return room;
+	}
+
+	public void setRoom(Room room) {
+		this.room = room;
+	}
+
+	public List<Car> getCars() {
+		return cars;
+	}
+
+	public void setCars(List<Car> cars) {
+		this.cars = cars;
+	}
+
+	public Car getCar() {
+		return car;
+	}
+
+	public void setCar(Car car) {
+		this.car = car;
+	}
+
+	public List<Plate> getPlates() {
+		return plates;
+	}
+
+	public void setPlates(List<Plate> plates) {
+		this.plates = plates;
+	}
+
+	public Plate getPlate() {
+		return plate;
+	}
+
+	public void setPlate(Plate plate) {
+		this.plate = plate;
+	}
+
+	public int getContador() {
+		return contador;
+	}
+
+	public void setContador(int contador) {
+		this.contador = contador;
 	}
 
 }

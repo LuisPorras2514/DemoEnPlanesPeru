@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+
+	<ui:composition template="/WEB-INF/templates/master.xhtml">
+		<ui:define name="content">
+			<h:form id="frm">
+			
+				<p:growl id="men"/>
+
+				<p:toolbar>
+					<f:facet name="right">
+						<p:commandButton value="Guardar Habitacion" icon="ui-icon-disk"
+							action="#{serviceController.saveRoom()}"
+							ajax="true"
+							update = ":frm:datTabRooms :frm:panGridRoom :frm:men"
+							/>
+						<p:commandButton value="Regresar" icon="ui-icon-disk"
+							action="#{serviceController.newService()}"
+							immediate="true"
+							ajax="false" />
+					</f:facet>
+				</p:toolbar>
+
+				<p:panelGrid id="panGridRoom" columns="2" style="width:100%">
+					
+					<p:outputLabel value="Cantidad de personas:" for="txtPersonas" />
+					<p:inputText id="txtPersonas" required="true"
+						value="#{serviceController.room.amountPeople}" />
+						
+					<p:outputLabel value="Precio:" for="txtPrice" />
+					<p:inputText id="txtPrice" required="true"
+						value="#{serviceController.room.price}" />
+					
+				</p:panelGrid>
+				
+				<p:toolbar>
+					<f:facet name="right">
+						<p:commandButton value="Guardar Servicio" icon="ui-icon-disk"
+							action="#{serviceController.saveService()}"
+							ajax="false" />
+						<p:commandButton value="Regresar" icon="ui-icon-disk"
+							action="#{serviceController.newService()}"
+							immediate="true"
+							ajax="false" />
+					</f:facet>
+				</p:toolbar>
+				
+				<p:dataTable id="datTabRooms"
+					emptyMessage="No existen habitaciones registradas"
+					value="#{serviceController.rooms}" var="room"
+					rowKey="#{room.id}">
+					
+					<f:facet name="header">
+            		Habitaciones registradas
+        			</f:facet>
+        			
+					<p:column headerText="Personas por habitaciones">
+						<p:outputLabel value="#{room.amountPeople}" />
+					</p:column>
+					
+					<p:column headerText="Precio">
+						<p:outputLabel value="#{room.price}" />
+					</p:column>
+
+				</p:dataTable>
+				
+			</h:form>
+		</ui:define>
+	</ui:composition>
+
+</body>
+</html>

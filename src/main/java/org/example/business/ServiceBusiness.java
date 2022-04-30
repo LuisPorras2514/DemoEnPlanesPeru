@@ -33,18 +33,22 @@ public class ServiceBusiness implements Serializable {
 		serviceRepository.delete(service);
 	}
 
+	@Transactional
 	public List<Service> getAll() throws Exception{
 		return serviceRepository.findAll();
 	}
 	
+	@Transactional
 	public List<Service> getAllHostingServices() throws Exception{
 		return serviceRepository.findAllHostingService();
 	}
 	
+	@Transactional
 	public List<Service> getAllFoodServices() throws Exception{
 		return serviceRepository.findAllFoodService();
 	}
 	
+	@Transactional
 	public List<Service> getAllTransportServices() throws Exception{
 		return serviceRepository.findAllTransportService();
 	}

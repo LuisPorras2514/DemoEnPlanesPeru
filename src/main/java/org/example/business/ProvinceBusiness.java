@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import org.example.entities.Province;
 import org.example.repository.ProvinceRepository;
@@ -22,10 +23,12 @@ public class ProvinceBusiness implements Serializable {
 	@Inject
 	private ProvinceRepository provinceRepository;
 
+	@Transactional
 	public List<Province> getAllProvince() throws Exception {
 		return provinceRepository.findall();
 	}
-
+	
+	@Transactional
 	public List<Province> getAllProvinceByDepartment(Long id) throws Exception {
 		return provinceRepository.findAllByDepartment(id);
 	}

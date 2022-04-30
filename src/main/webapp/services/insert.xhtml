@@ -16,7 +16,7 @@
 				<p:toolbar>
 					<f:facet name="right">
 						<p:commandButton value="Guardar Servicio" icon="ui-icon-disk"
-							action="#{serviceController.saveService()}"
+							action="#{serviceController.newProductService()}"
 							ajax="false" />
 						<p:commandButton value="Regresar" icon="ui-icon-disk"
 							action="#{serviceController.listService()}"
@@ -61,6 +61,7 @@
 							itemValue="#{department}"/>
 							
 					</p:selectOneMenu>
+
 
 					<p:outputLabel value="Provincia:" for="cbProvincia"/>
 					<p:selectOneMenu id="cbProvincia" required="true" effect="drop"

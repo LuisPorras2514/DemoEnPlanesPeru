@@ -10,22 +10,22 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "rooms")
-public class Room {
+@Table(name = "cars")
+public class Car {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "amount_people", nullable = false)
-	private int AmountPeople;
-	
+	@Column(name = "brand", nullable = false)
+	private String brand;
+	@Column(name = "model", nullable = false)
+	private String model;
 	@Column(name = "price", nullable = false)
 	private double price;
 	
 	@ManyToOne
 	@JoinColumn(name = "service_id", nullable = false)
 	private Service service;
-	
 
 	public Long getId() {
 		return id;
@@ -35,20 +35,28 @@ public class Room {
 		this.id = id;
 	}
 
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+
+	public String getModel() {
+		return model;
+	}
+
+	public void setModel(String model) {
+		this.model = model;
+	}
+
 	public double getPrice() {
 		return price;
 	}
 
 	public void setPrice(double price) {
 		this.price = price;
-	}
-
-	public int getAmountPeople() {
-		return AmountPeople;
-	}
-
-	public void setAmountPeople(int amountPeople) {
-		AmountPeople = amountPeople;
 	}
 
 	public Service getService() {
