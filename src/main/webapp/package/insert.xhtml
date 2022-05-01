@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+
+	<ui:composition template="/WEB-INF/templates/master.xhtml">
+		<ui:define name="content">
+			<h:form id="frm">
+				<p:growl id="men" />
+
+				<p:toolbar>
+					<f:facet name="right">
+						<p:commandButton value="Guardar Paquete" icon="ui-icon-disk"
+							action="#{packageTravelController.savePackageTravel()}"
+							ajax="false" />
+						<p:commandButton value="Regresar" icon="ui-icon-disk"
+							action="#{packageTravelController.listPackageTravel()}"
+							immediate="true"
+							ajax="false" />
+					</f:facet>
+				</p:toolbar>
+
+				<p:panelGrid id="panGridPackageTravel" columns="2" style="width:100%">
+					
+					<p:outputLabel value="Nombre del Paquete:" for="txtNamePackageTravel" />
+					<p:inputText id="txtNamePackageTravel" required="true" maxlength="45"
+						value="#{packageTravelController.packageTravel.namePackage}" />
+					
+					<p:outputLabel for="cbDepartment" value="Departamento:"/>
+					<p:selectOneMenu id="cbDepartment" required="true" effect="drop"
+						value="#{packageTravelController.department}"
+						converter="omnifaces.SelectItemsConverter">
+						
+						<p:ajax listener="#{packageTravelController.provinceChange()}"
+							update ="cbProvincia"/>
+						
+						<f:selectItem itemLabel="Seleccione departamento"
+							noSelectionOption="true" itemValue=""/>
+						
+						<f:selectItems value="#{packageTravelController.departments}"
+							var="department" itemLabel="#{department.name}"
+							itemValue="#{department}"/>
+							
+					</p:selectOneMenu>
+
+
+					<p:outputLabel value="Provincia:" for="cbProvincia"/>
+					<p:selectOneMenu id="cbProvincia" required="true" effect="drop"
+						value="#{packageTravelController.province}"
+						converter="omnifaces.SelectItemsConverter">
+						
+						<f:selectItem itemLabel="Seleccione la provincia"
+							noSelectionOption="true" itemValue=""/>
+						<f:selectItems value="#{packageTravelController.provinces}"
+							var="province" itemLabel="#{province.name}"
+							itemValue="#{province}" />
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Fecha de inicio:" for="DTPFechaInicio" />
+					<p:calendar id="DTPFechaInicio" value="#{packageTravelController.packageTravel.dateStart}"> </p:calendar>
+					
+					<p:outputLabel value="Fecha de fin" for="DTPFechaFin" />
+					<p:calendar id="DTPFechaFin" value="#{packageTravelController.packageTravel.dateEnd}"> </p:calendar>
+
+					<p:outputLabel value="Dias del plan:" for="txtPlanDays" />
+					<p:inputText id="txtPlanDays" required="true" maxlength="10"
+						value="#{packageTravelController.packageTravel.days}" />
+						
+					<p:outputLabel value="Cantidad maxima por reserva:" for="txtQuantityReservation" />
+					<p:inputText id="txtQuantityReservation" required="true" maxlength="2"
+						value="#{packageTravelController.packageTravel.maximumPeople}" />
+					
+					<p:outputLabel value="Precio:" for="txtPrice" />
+					<p:inputText id="txtPrice" required="true" maxlength="10"
+						value="#{packageTravelController.packageTravel.price}" />
+
+					<p:outputLabel value="Oferta (%):" for="txtOffer" />
+					<p:inputText id="txtOffer" required="true" maxlength="10"
+						value="#{packageTravelController.packageTravel.offer}" />
+					
+					
+				</p:panelGrid>
+					
+			</h:form>
+		</ui:define>
+	</ui:composition>
+
+</body>
+</html>

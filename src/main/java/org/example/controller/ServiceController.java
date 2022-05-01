@@ -204,9 +204,6 @@ public class ServiceController implements Serializable {
 						this.carBusiness.insert(c);
 					}
 				}
-				
-
-				
 				Message.messageInfo("Servicio agregado exitosamente");
 			}
 			this.getAllService();
@@ -342,7 +339,6 @@ public class ServiceController implements Serializable {
 
 	public void provinceChange() {
 		try {
-			Message.messageInfo("Se actualizo");
 			this.provinces = provinceBusiness.getAllProvinceByDepartment(department.getId());
 		} catch (Exception e) {
 			Message.messageInfo("Error en revoger datos");

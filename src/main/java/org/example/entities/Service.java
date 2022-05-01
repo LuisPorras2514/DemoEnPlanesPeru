@@ -25,12 +25,10 @@ public class Service {
 	@Column(name = "star", nullable = false)
 	private int star;
 
-	// DEPARTAMENTO
 	@ManyToOne
 	@JoinColumn(name = "department_id", nullable = false)
 	private Department department;
 
-	// PROVINCIA
 	@ManyToOne
 	@JoinColumn(name = "province_id", nullable = false)
 	private Province province;
