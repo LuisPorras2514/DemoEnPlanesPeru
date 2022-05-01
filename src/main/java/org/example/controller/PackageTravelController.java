@@ -12,7 +12,6 @@ import javax.inject.Named;
 import org.example.business.DepartmentBusiness;
 import org.example.business.PackageTravelBusiness;
 import org.example.business.ProvinceBusiness;
-import org.example.business.ServiceBusiness;
 import org.example.business.ServiceTypeBusiness;
 import org.example.entities.Department;
 import org.example.entities.PackageTravel;
@@ -32,8 +31,6 @@ public class PackageTravelController implements Serializable {
 	private DepartmentBusiness departmentBusiness;
 	@Inject
 	private ProvinceBusiness provinceBusiness;
-	@Inject
-	private ServiceBusiness serviceBusiness;
 	@Inject
 	private ServiceTypeBusiness serviceTypeBusiness;
 

@@ -12,14 +12,27 @@
 	<ui:insert name="header">
 		<h:form>
 			<p:menubar autoDisplay="false">
-				<p:submenu label="Servicios" icon="ui-icon-pencil">
+				
+				<p:submenu label="Servicios" icon="ui-icon-pencil" width="25%">
 					<p:menuitem icon="ui-icon-document" value="Servicios de Alojamiento"
 						url="/services/list.xhtml" />
 				</p:submenu>
-				<p:submenu label="Paquetes" icon="ui-icon-pencil">
+				
+				<p:submenu label="Paquetes" icon="ui-icon-pencil" width="25%">
 					<p:menuitem icon="ui-icon-document" value="Paquetes"
 						url="/package/list.xhtml" />
 				</p:submenu>
+				
+				<p:submenu label="Nosotros" icon="ui-icon-pencil" width="500px">
+				</p:submenu>
+				
+				<p:submenu label="Iniciar sesión" icon="ui-icon-pencil">
+					<p:menuitem icon="ui-icon-document" value="Iniciar sesión"
+						url="/user/login-user.xhtml" />
+					<p:menuitem icon="ui-icon-document" value="Registrarse"
+						url="/user/register.xhtml" />
+				</p:submenu>
+				
 			</p:menubar>
 		</h:form>
 	</ui:insert>
