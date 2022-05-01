@@ -22,6 +22,8 @@ public class Car {
 	private String model;
 	@Column(name = "price", nullable = false)
 	private double price;
+	@Column(name = "capacity", nullable = false)
+	private int capacity;
 	
 	@ManyToOne
 	@JoinColumn(name = "service_id", nullable = false)
@@ -57,6 +59,14 @@ public class Car {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public int getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
 	}
 
 	public Service getService() {

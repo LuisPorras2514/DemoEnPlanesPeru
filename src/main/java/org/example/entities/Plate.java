@@ -16,10 +16,14 @@ public class Plate {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "name", nullable = false)
-	private String name;
-	@Column(name = "price", nullable = false)
-	private double price;
+	@Column(name = "price_breakfast", nullable = false)
+	private double priceBreakfast;
+	
+	@Column(name = "price_lunch", nullable = false)
+	private double priceLunch;
+	
+	@Column(name = "price_dinner", nullable = false)
+	private double priceDinner;
 	
 	@ManyToOne
 	@JoinColumn(name = "service_id", nullable = false)
@@ -33,20 +37,28 @@ public class Plate {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public double getPriceBreakfast() {
+		return priceBreakfast;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setPriceBreakfast(double priceBreakfast) {
+		this.priceBreakfast = priceBreakfast;
 	}
 
-	public double getPrice() {
-		return price;
+	public double getPriceLunch() {
+		return priceLunch;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public void setPriceLunch(double priceLunch) {
+		this.priceLunch = priceLunch;
+	}
+
+	public double getPriceDinner() {
+		return priceDinner;
+	}
+
+	public void setPriceDinner(double priceDinner) {
+		this.priceDinner = priceDinner;
 	}
 
 	public Service getService() {

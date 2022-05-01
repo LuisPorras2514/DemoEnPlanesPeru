@@ -11,7 +11,82 @@
 	<ui:composition template="/WEB-INF/templates/master.xhtml">
 		<ui:define name="content">
 			<h:form id="frm">
-				Añadir carro
+			
+				<p:growl id="men"/>
+
+				<p:toolbar>
+					<f:facet name="right">
+						<p:commandButton value="Guardar Carro" icon="ui-icon-disk"
+							action="#{serviceController.saveCar()}"
+							ajax="true"
+							update = ":frm:datTabCar :frm:panGridCar :frm:men"
+							/>
+						<p:commandButton value="Regresar" icon="ui-icon-disk"
+							action="#{serviceController.newService()}"
+							immediate="true"
+							ajax="false" />
+					</f:facet>
+				</p:toolbar>
+
+				<p:panelGrid id="panGridCar" columns="2" style="width:100%">
+					
+					<p:outputLabel value="Marca del carro:" for="txtCarro" />
+					<p:inputText id="txtCarro"  placeholder ="Inserte marca del auto"
+						value="#{serviceController.car.brand}"/>
+						
+					<p:outputLabel value="Modelo del carro:" for="txtModelo" />
+					<p:inputText id="txtModelo"
+						value="#{serviceController.car.model}" />
+						
+					<p:outputLabel value="Capidad del carro (Personas):" for="txtCapacidad" />
+					<p:inputText id="txtCapacidad"
+						value="#{serviceController.car.capacity}" />
+						
+					<p:outputLabel value="Precio por dia:" for="txtPrice" />
+					<p:inputText id="txtPrice"
+						value="#{serviceController.car.price}" />
+					
+				</p:panelGrid>
+				
+				<p:toolbar>
+					<f:facet name="right">
+						<p:commandButton value="Guardar Servicio" icon="ui-icon-disk"
+							action="#{serviceController.saveService()}"
+							ajax="false" />
+						<p:commandButton value="Regresar" icon="ui-icon-disk"
+							action="#{serviceController.newService()}"
+							immediate="true"
+							ajax="false" />
+					</f:facet>
+				</p:toolbar>
+				
+				<p:dataTable id="datTabCar"
+					emptyMessage="No existen carros registradas"
+					value="#{serviceController.cars}" var="car"
+					rowKey="#{car.id}">
+					
+					<f:facet name="header">
+            		Carros registrados
+        			</f:facet>
+        			
+					<p:column headerText="Marca">
+						<p:outputLabel value="#{car.brand}" />
+					</p:column>
+					
+					<p:column headerText="Modelo">
+						<p:outputLabel value="#{car.model}" />
+					</p:column>
+					
+					<p:column headerText="Capacidad del auto (Personas)">
+						<p:outputLabel value="#{car.capacity}" />
+					</p:column>
+					
+					<p:column headerText="Precio del auto">
+						<p:outputLabel value="#{car.price}" />
+					</p:column>
+					
+				</p:dataTable>
+				
 			</h:form>
 		</ui:define>
 	</ui:composition>

@@ -161,6 +161,16 @@ public class ServiceController implements Serializable {
 			Message.messageInfo("Solo puedes agregar 3 habitaciones por servicio");
 		}
 	}
+	
+	public void saveCar() {
+		if (contador < 3) {
+			this.cars.add(car);
+			this.car = new Car();
+			contador++;
+		} else {
+			Message.messageInfo("Solo puedes agregar 3 carros por servicio");
+		}
+	}
 
 	// GUARDAR
 	public String saveService() {
@@ -180,10 +190,22 @@ public class ServiceController implements Serializable {
 				
 				this.serviceBusiness.insert(service);
 				
-				for (Room rs : rooms) {
-					rs.setService(service);
-					this.roomBusiness.insert(rs);
+				if(serviceType.getId() == 1) {
+					for (Room rs : rooms) {
+						rs.setService(service);
+						this.roomBusiness.insert(rs);
+					}
+				} else if (serviceType.getId() == 2) {
+					plate.setService(service);
+					this.plateBusiness.insert(plate);
+				} else if (serviceType.getId() == 3) {
+					for (Car c : cars) {
+						c.setService(service);
+						this.carBusiness.insert(c);
+					}
 				}
+				
+
 				
 				Message.messageInfo("Servicio agregado exitosamente");
 			}
