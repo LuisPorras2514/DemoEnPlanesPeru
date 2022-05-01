@@ -34,6 +34,37 @@
 			    	</f:facet>
 			    
 			    </p:toolbar>
+			    
+			    <p:panelGrid id="panGridFiltradores" columns="3" style="width:100%">
+					<p:outputLabel value="Buscar por departamento" for="cbSearchDeparment" />
+					
+					<p:selectOneMenu id="cbSearchDeparment" required="false" effect="drop"
+						value="#{packageTravelController.department}"
+						converter="omnifaces.SelectItemsConverter">
+						
+						<f:selectItem itemLabel="Seleccione departamento"
+							noSelectionOption="true" itemValue=""/>
+						
+						<f:selectItems value="#{packageTravelController.departments}"
+							var="department" itemLabel="#{department.name}"
+							itemValue="#{department}"/>
+							
+					</p:selectOneMenu>
+					
+					<p:commandButton icon="ui-icon-search"
+			    		action="#{packageTravelController.searchProductByDepartment()}"
+			    		update=":frm:datTabPackageTravel :frm:men"/>
+			    	
+			    		
+			    	<p:outputLabel value="Buscar por precio maximo" for="txtSearchMaximumPrice" />
+					<p:inputText id="txtSearchMaximumPrice" maxlength="45"
+						value="#{packageTravelController.priceMaximum}" />
+					
+					<p:commandButton icon="ui-icon-search"
+			    		action="#{packageTravelController.searchProductByPriceMaximum()}"
+			    		update=":frm:datTabPackageTravel :frm:men"/>
+			    		
+				</p:panelGrid>
 			
 			
 				<p:dataTable id="datTabPackageTravel"

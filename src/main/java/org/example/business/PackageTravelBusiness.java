@@ -55,8 +55,8 @@ public class PackageTravelBusiness implements Serializable {
 	}
 
 	@Transactional
-	public List<PackageTravel> getAllByPrice(double priceMinimal, double priceMaximum) throws Exception {
-		return packageTravelRepository.findAllByPrice(priceMinimal, priceMaximum);
+	public List<PackageTravel> getAllByPrice(double priceMaximum) throws Exception {
+		return packageTravelRepository.findAllByPrice(priceMaximum);
 	}
 
 	@Transactional

@@ -64,13 +64,12 @@ public class PackageTravelRepository implements Serializable {
 	}
 	
 	//PorPrecio
-	public List<PackageTravel> findAllByPrice(double priceMinimal, double priceMaximum) throws Exception {
+	public List<PackageTravel> findAllByPrice(double priceMaximum) throws Exception {
 		List<PackageTravel> packageTravels = new ArrayList<>();
 		
-		TypedQuery<PackageTravel> query = em.createQuery("FROM PackageTravel WHERE price BETWEEN ?1 AND ?2", PackageTravel.class); 
+		TypedQuery<PackageTravel> query = em.createQuery("FROM PackageTravel WHERE price <= ?1", PackageTravel.class); 
 		
-		query.setParameter(1, priceMinimal);
-		query.setParameter(2, priceMaximum);
+		query.setParameter(1, priceMaximum);
 		packageTravels = query.getResultList();
 		return packageTravels;
 	}
@@ -94,6 +93,16 @@ public class PackageTravelRepository implements Serializable {
 		
 		query.setParameter(1, inicio);
 		query.setParameter(1, fin);
+		
+		packageTravels = query.getResultList();
+		return packageTravels;
+	}
+	
+	//tieneOferta
+	public List<PackageTravel> findAllByOffer() throws Exception {
+		List<PackageTravel> packageTravels = new ArrayList<>();
+		
+		TypedQuery<PackageTravel> query = em.createQuery("FROM PackageTravel WHERE offer >= 1", PackageTravel.class); 
 		
 		packageTravels = query.getResultList();
 		return packageTravels;

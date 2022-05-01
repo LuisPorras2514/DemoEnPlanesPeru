@@ -40,6 +40,8 @@ public class PackageTravelController implements Serializable {
 
 	private Province province;
 	private List<Province> provinces;
+	
+	private double priceMaximum;
 
 	@PostConstruct
 	public void init() {
@@ -54,6 +56,7 @@ public class PackageTravelController implements Serializable {
 		provinces = new ArrayList<>();
 
 		getAllPackageTravel();
+		getAllDeparments();
 	}
 
 	public void getAllPackageTravel() {
@@ -61,6 +64,30 @@ public class PackageTravelController implements Serializable {
 			packageTravels = packageTravelBusiness.getAll();
 		} catch (Exception e) {
 
+		}
+	}
+	
+	public void getAllDeparments() {
+		try {
+			departments = departmentBusiness.getAllDepartment();
+		} catch (Exception e) {
+
+		}
+	}
+	
+	public void searchProductByDepartment() {
+		try{
+			packageTravels = packageTravelBusiness.getAllByDeparment(department.getId());
+		} catch (Exception e) {
+			Message.messageInfo("No se encontro Paquetes con el departamento ingresado");
+		}
+	}
+	
+	public void searchProductByPriceMaximum() {
+		try{
+			packageTravels = packageTravelBusiness.getAllByPrice(priceMaximum);
+		} catch (Exception e) {
+			Message.messageInfo("Error ProductController:" + e.getMessage());
 		}
 	}
 
@@ -143,6 +170,8 @@ public class PackageTravelController implements Serializable {
 		packageTravel = new PackageTravel();
 		packageTravelSelected = new PackageTravel();
 		packageTravels = new ArrayList<>();
+		
+		department = new Department();
 	}
 	
 	public void provinceChange() {
@@ -207,6 +236,14 @@ public class PackageTravelController implements Serializable {
 
 	public void setProvinces(List<Province> provinces) {
 		this.provinces = provinces;
+	}
+
+	public double getPriceMaximum() {
+		return priceMaximum;
+	}
+
+	public void setPriceMaximum(double priceMaximum) {
+		this.priceMaximum = priceMaximum;
 	}
 
 }

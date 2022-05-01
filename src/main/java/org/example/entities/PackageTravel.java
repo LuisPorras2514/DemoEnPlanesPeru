@@ -32,7 +32,7 @@ public class PackageTravel {
 	private int maximumPeople ;
 	
 	@Column(name = "price", nullable = false)
-	private int price ;
+	private double price ;
 	
 	@Column(name = "offer", nullable = false)
 	private int offer;
@@ -88,11 +88,11 @@ public class PackageTravel {
 		this.maximumPeople = maximumPeople;
 	}
 
-	public int getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
