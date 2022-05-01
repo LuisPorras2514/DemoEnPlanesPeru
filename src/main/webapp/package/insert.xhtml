@@ -29,6 +29,7 @@
 					
 					<p:outputLabel value="Nombre del Paquete:" for="txtNamePackageTravel" />
 					<p:inputText id="txtNamePackageTravel" required="true" maxlength="45"
+						placeholder="Ingrese el nombre de su paquete"
 						value="#{packageTravelController.packageTravel.namePackage}" />
 					
 					<p:outputLabel for="cbDepartmentSearch" value="Departamento:"/>
@@ -45,9 +46,7 @@
 						<f:selectItems value="#{packageTravelController.departments}"
 							var="department" itemLabel="#{department.name}"
 							itemValue="#{department}"/>
-							
 					</p:selectOneMenu>
-
 
 					<p:outputLabel value="Provincia:" for="cbProvincia"/>
 					<p:selectOneMenu id="cbProvincia" required="true" effect="drop"
@@ -62,27 +61,45 @@
 					</p:selectOneMenu>
 					
 					<p:outputLabel value="Fecha de inicio:" for="DTPFechaInicio" />
-					<p:calendar id="DTPFechaInicio" value="#{packageTravelController.packageTravel.dateStart}"> </p:calendar>
+					<p:calendar id="DTPFechaInicio"
+						placeholder="Ingrese la fecha de inicio"
+						value="#{packageTravelController.packageTravel.dateStart}"> 
+					</p:calendar>
 					
 					<p:outputLabel value="Fecha de fin" for="DTPFechaFin" />
-					<p:calendar id="DTPFechaFin" value="#{packageTravelController.packageTravel.dateEnd}"> </p:calendar>
+					<p:calendar id="DTPFechaFin" 
+						placeholder="Ingrese la fecha de fin"
+						value="#{packageTravelController.packageTravel.dateEnd}"> 
+					</p:calendar>
 
-					<p:outputLabel value="Dias del plan:" for="txtPlanDays" />
+					<p:outputLabel value="Dias de duración del plan:" for="txtPlanDays" />
 					<p:inputText id="txtPlanDays" required="true" maxlength="10"
+						placeholder="Ingrese la cantidad de dias"
 						value="#{packageTravelController.packageTravel.days}" />
 						
-					<p:outputLabel value="Cantidad maxima por reserva:" for="txtQuantityReservation" />
+					<p:outputLabel value="Cantidad maxima de personas por reserva:" for="txtQuantityReservation" />
 					<p:inputText id="txtQuantityReservation" required="true" maxlength="2"
+						placeholder="Ingrese la cantidad de personas"
 						value="#{packageTravelController.packageTravel.maximumPeople}" />
 					
 					<p:outputLabel value="Precio:" for="txtPrice" />
 					<p:inputText id="txtPrice" required="true" maxlength="10"
+						placeholder="Ingrese el precio"
 						value="#{packageTravelController.packageTravel.price}" />
 
 					<p:outputLabel value="Oferta (%):" for="txtOffer" />
 					<p:inputText id="txtOffer" required="true" maxlength="10"
+						placeholder="Ingrese el porcentaje de oferta"
 						value="#{packageTravelController.packageTravel.offer}" />
 					
+					<p:outputLabel value="Servicios:" for="scbServicios"/>
+					<p:selectManyCheckbox id="scbServicios"
+						value = "#{packageTravelController.servicesTypeSelected}">
+            			<f:selectItems value="#{packageTravelController.servicesType}"
+            				var="serviceType"
+            				itemLabel="#{serviceType.name}"
+            				itemValue="#{serviceType}"/>
+        			</p:selectManyCheckbox>
 					
 				</p:panelGrid>
 					

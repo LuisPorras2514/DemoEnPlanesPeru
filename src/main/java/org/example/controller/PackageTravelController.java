@@ -12,9 +12,12 @@ import javax.inject.Named;
 import org.example.business.DepartmentBusiness;
 import org.example.business.PackageTravelBusiness;
 import org.example.business.ProvinceBusiness;
+import org.example.business.ServiceBusiness;
+import org.example.business.ServiceTypeBusiness;
 import org.example.entities.Department;
 import org.example.entities.PackageTravel;
 import org.example.entities.Province;
+import org.example.entities.ServiceType;
 import org.example.util.Message;
 
 @Named
@@ -29,6 +32,10 @@ public class PackageTravelController implements Serializable {
 	private DepartmentBusiness departmentBusiness;
 	@Inject
 	private ProvinceBusiness provinceBusiness;
+	@Inject
+	private ServiceBusiness serviceBusiness;
+	@Inject
+	private ServiceTypeBusiness serviceTypeBusiness;
 
 	// Variable
 	private PackageTravel packageTravel;
@@ -40,8 +47,12 @@ public class PackageTravelController implements Serializable {
 
 	private Province province;
 	private List<Province> provinces;
-	
+
 	private double priceMaximum;
+
+	private List<ServiceType> servicesTypeSelected;
+	private List<ServiceType> servicesType;
+	private ServiceType serviceType;
 
 	@PostConstruct
 	public void init() {
@@ -55,8 +66,13 @@ public class PackageTravelController implements Serializable {
 		province = new Province();
 		provinces = new ArrayList<>();
 
+		serviceType = new ServiceType();
+		servicesTypeSelected = new ArrayList<>();
+		servicesType = new ArrayList<>();
+
 		getAllPackageTravel();
 		getAllDeparments();
+		getAllServiceType();
 	}
 
 	public void getAllPackageTravel() {
@@ -66,7 +82,7 @@ public class PackageTravelController implements Serializable {
 
 		}
 	}
-	
+
 	public void getAllDeparments() {
 		try {
 			departments = departmentBusiness.getAllDepartment();
@@ -74,17 +90,25 @@ public class PackageTravelController implements Serializable {
 
 		}
 	}
-	
+
+	public void getAllServiceType() {
+		try {
+			servicesType = serviceTypeBusiness.getAll();
+		} catch (Exception e) {
+
+		}
+	}
+
 	public void searchProductByDepartment() {
-		try{
+		try {
 			packageTravels = packageTravelBusiness.getAllByDeparment(department.getId());
 		} catch (Exception e) {
 			Message.messageInfo("No se encontro Paquetes con el departamento ingresado");
 		}
 	}
-	
+
 	public void searchProductByPriceMaximum() {
-		try{
+		try {
 			packageTravels = packageTravelBusiness.getAllByPrice(priceMaximum);
 		} catch (Exception e) {
 			Message.messageInfo("Error ProductController:" + e.getMessage());
@@ -99,25 +123,25 @@ public class PackageTravelController implements Serializable {
 		}
 		return "/package/insert";
 	}
-	
+
 	public String savePackageTravel() {
 		String view = "";
-		
+
 		try {
 			if (packageTravel.getId() != null) {
 				this.packageTravel.setDepartment(department);
 				this.packageTravel.setProvince(province);
 				this.packageTravelBusiness.update(packageTravel);
-				
+
 				Message.messageInfo("Paquete actualizado exitosamente");
 			} else {
 				this.packageTravel.setDepartment(department);
 				this.packageTravel.setProvince(province);
 				this.packageTravelBusiness.insert(packageTravel);
-				
+
 				Message.messageInfo("Paquete agregado exitosamente");
 			}
-			
+
 			this.resetForm();
 			this.getAllPackageTravel();
 			view = "/package/list";
@@ -170,10 +194,10 @@ public class PackageTravelController implements Serializable {
 		packageTravel = new PackageTravel();
 		packageTravelSelected = new PackageTravel();
 		packageTravels = new ArrayList<>();
-		
+
 		department = new Department();
 	}
-	
+
 	public void provinceChange() {
 		try {
 			this.provinces = provinceBusiness.getAllProvinceByDepartment(department.getId());
@@ -244,6 +268,30 @@ public class PackageTravelController implements Serializable {
 
 	public void setPriceMaximum(double priceMaximum) {
 		this.priceMaximum = priceMaximum;
+	}
+
+	public List<ServiceType> getServicesTypeSelected() {
+		return servicesTypeSelected;
+	}
+
+	public void setServicesTypeSelected(List<ServiceType> servicesTypeSelected) {
+		this.servicesTypeSelected = servicesTypeSelected;
+	}
+
+	public List<ServiceType> getServicesType() {
+		return servicesType;
+	}
+
+	public void setServicesType(List<ServiceType> servicesType) {
+		this.servicesType = servicesType;
+	}
+
+	public ServiceType getServiceType() {
+		return serviceType;
+	}
+
+	public void setServiceType(ServiceType serviceType) {
+		this.serviceType = serviceType;
 	}
 
 }
