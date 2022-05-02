@@ -38,6 +38,8 @@
 					</p:fieldset>
 					<p:toolbar>
 						<f:facet name="right">
+							<p:commandButton value="Registrate" icon="ui-icon-disk"
+								action="#{userController.newRegisterUser()}" ajax="false" />
 							<p:commandButton value="Iniciar Sesión" icon="ui-icon-disk"
 								action="#{userController.loginUser()}" ajax="false" />
 						</f:facet>

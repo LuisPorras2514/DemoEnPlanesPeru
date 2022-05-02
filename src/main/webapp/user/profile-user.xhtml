@@ -8,10 +8,46 @@
 <h:head></h:head>
 <body>
 
-	<ui:composition template="/WEB-INF/templates/master.xhtml">
+	<ui:composition template="/WEB-INF/templates/template-user-profile.xhtml">
 		<ui:define name="content">
 			<h:form id="frm">
-				LOGIN CORRECTO DE USUARIO
+				<p:growl id="men" />
+				
+				<p:toolbar>
+					<f:facet name="right">
+						<p:commandButton value="Editar Usuario" icon="ui-icon-disk"
+							action="#{userController.editUser()}" ajax="false" />
+					</f:facet>
+				</p:toolbar>
+
+				<p:fieldset legend="PERFIL DE USUARIO">
+					<p:dataTable id="datTabusuario"
+						emptyMessage="No existen usuarios registrados"
+						value="#{userController.users}" var="user"
+						rowKey="#{user.id}" selectionMode="single"
+						selection="#{userController.userSelected}">
+
+						<p:ajax event="rowSelect"
+							listeners="#{userController.userSelected}" />
+
+						<p:column headerText="Nombres">
+							<p:outputLabel value="#{user.nameUser}" />
+						</p:column>
+						
+						<p:column headerText="Apellidos">
+							<p:outputLabel value="#{user.lastNameUser}" />
+						</p:column>
+						
+						<p:column headerText="Correo electrónico">
+							<p:outputLabel value="#{user.mail}" />
+						</p:column>
+						
+						<p:column headerText="Celular">
+							<p:outputLabel value="#{user.celphone}" />
+						</p:column>
+
+					</p:dataTable>
+				</p:fieldset>
 			</h:form>
 		</ui:define>
 	</ui:composition>

@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+
+	<ui:composition template="/WEB-INF/templates/template-user-profile.xhtml">
+		<ui:define name="content">
+			<h:form id="frm">
+				<p:growl id="men"/>			    
+			    
+			    <p:toolbar>
+			    	<f:facet name="right">
+			    		<p:commandButton value="Eliminar" icon="ui-icon-disk"
+			    		action="#{userController.deleteFavorite()}"
+			    		ajax="true"
+			    		update=":frm:datTabFavorites :frm:men" />
+			    	</f:facet>
+			    
+			    </p:toolbar>
+			
+			
+				<p:dataTable id="datTabFavorites"
+					emptyMessage="No existen paquetes de viaje favoritos registrados"
+					value="#{userController.favoritePackages}" var="favoritePackage"
+					rowKey="#{favoritePackage.id}" selectionMode="single"
+					selection="#{userController.favoritePackageSelected}">
+					
+					<f:facet name="header">
+            			Paquetes de viaje favoritos
+        			</f:facet>
+        			
+					<p:column headerText="Nombre del paquete">
+						<p:outputLabel value="#{favoritePackage.packageTravel.namePackage}" />
+					</p:column>
+					
+					<p:column headerText="Departamento">
+						<p:outputLabel value="#{favoritePackage.packageTravel.department.name}" />
+					</p:column>
+					
+					<p:column headerText="Provincia">
+						<p:outputLabel value="#{favoritePackage.packageTravel.province.name}" />
+					</p:column>
+					
+					<p:column headerText="Dias de viaje)">
+						<p:outputLabel value="#{favoritePackage.packageTravel.days}" />
+					</p:column>
+					
+					<p:column headerText="Precio">
+						<p:outputLabel value="#{favoritePackage.packageTravel.price}" />
+					</p:column>
+					
+					<p:column headerText="Oferta (%)">
+						<p:outputLabel value="#{favoritePackage.packageTravel.offer}" />
+					</p:column>
+
+				</p:dataTable>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+
+</body>
+</html>

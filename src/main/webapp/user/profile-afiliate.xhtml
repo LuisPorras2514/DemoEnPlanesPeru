@@ -8,10 +8,50 @@
 <h:head></h:head>
 <body>
 
-	<ui:composition template="/WEB-INF/templates/master.xhtml">
+	<ui:composition template="/WEB-INF/templates/template-affiliate-profile.xhtml">
 		<ui:define name="content">
 			<h:form id="frm">
-				LOGIN CORRECTO DE EMPRESA
+				<p:growl id="men" />
+				
+				<p:toolbar>
+					<f:facet name="right">
+						<p:commandButton value="Editar Empresa" icon="ui-icon-disk"
+							action="#{userController.editAfiliate()}" ajax="false" />
+					</f:facet>
+				</p:toolbar>
+
+				<p:fieldset legend="PERFIL DE EMPRESA">
+					<p:dataTable id="datTabusuario"
+						emptyMessage="No existen empresas registrados"
+						value="#{userController.afiliates}" var="afiliate"
+						rowKey="#{afiliate.id}" selectionMode="single"
+						selection="#{userController.afiliateSelected}">
+
+						<p:ajax event="rowSelect"
+							listeners="#{userController.afiliateSelected}" />
+							
+						<p:column headerText="Nombre de la empresa">
+							<p:outputLabel value="#{afiliate.nameBusiness}" />
+						</p:column>
+
+						<p:column headerText="Nombres">
+							<p:outputLabel value="#{afiliate.nameUser}" />
+						</p:column>
+						
+						<p:column headerText="Apellidos">
+							<p:outputLabel value="#{afiliate.lastNameUser}" />
+						</p:column>
+						
+						<p:column headerText="Correo electrónico">
+							<p:outputLabel value="#{afiliate.mail}" />
+						</p:column>
+						
+						<p:column headerText="Celular">
+							<p:outputLabel value="#{afiliate.celphone}" />
+						</p:column>
+
+					</p:dataTable>
+				</p:fieldset>
 			</h:form>
 		</ui:define>
 	</ui:composition>

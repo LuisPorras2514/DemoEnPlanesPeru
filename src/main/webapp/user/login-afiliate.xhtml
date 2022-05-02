@@ -19,7 +19,7 @@
 						<f:facet name="right">
 							<p:commandButton value="Usario" icon="ui-icon-disk"
 								action="#{userController.newLoginUser()}" ajax="false" />
-							<p:commandButton value="Afiliado" icon="ui-icon-disk"
+							<p:commandButton value="Empresa" icon="ui-icon-disk"
 								action="#{userController.newLoginAfiliate()}" ajax="false" />
 						</f:facet>
 					</p:toolbar>
@@ -38,6 +38,8 @@
 					</p:fieldset>
 					<p:toolbar>
 						<f:facet name="right">
+							<p:commandButton value="Registrate" icon="ui-icon-disk"
+								action="#{userController.newRegisterAfiliate()}" ajax="false" />
 							<p:commandButton value="Iniciar Sesión" icon="ui-icon-disk"
 								action="#{userController.loginAfiliate()}" ajax="false" />
 						</f:facet>

@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+
+	<ui:composition template="/WEB-INF/templates/master.xhtml">
+		<ui:define name="content">
+			<h:form id="frm">
+				<p:growl id="men" />
+
+					<p:fieldset legend ="Registrate como usuario">
+					
+					<p:toolbar>
+						<f:facet name="right">
+							<p:commandButton value="Usario" icon="ui-icon-disk"
+								action="#{userController.newRegisterUser()}" ajax="false" />
+							<p:commandButton value="Empresa" icon="ui-icon-disk"
+								action="#{userController.newRegisterAfiliate()}" ajax="false" />
+						</f:facet>
+					</p:toolbar>
+					
+					<p:panelGrid id="panGridUser" columns="2" style="width:100%">
+
+						<p:outputLabel value="Nombres" for="txtName" />
+						<p:inputText id="txtName" maxlength="45"
+							value="#{userController.user.nameUser}" />
+
+						<p:outputLabel value="Apellidos" for="txtlastName" />
+						<p:inputText id="txtlastName" maxlength="45"
+							value="#{userController.user.lastNameUser}" />
+
+						<p:outputLabel value="Correo Electrónico" for="txtEmail" />
+						<p:inputText id="txtEmail" maxlength="45"
+							value="#{userController.user.mail}" />
+
+						<p:outputLabel value="Celular" for="txtCelphone" />
+						<p:inputText id="txtCelphone" maxlength="45"
+							value="#{userController.user.celphone}" />
+
+						<p:outputLabel value="Contraseña" for="txtPassword" />
+						<p:inputText id="txtPassword" maxlength="45"
+							value="#{userController.user.password}" />
+
+						<p:outputLabel value="Confirmar Contraseña"
+							for="txtConfirmPassword" />
+						<p:inputText id="txtConfirmPassword"
+							maxlength="45"
+							value="#{userController.passwordConfirm}" />
+						
+					</p:panelGrid>
+
+					</p:fieldset>
+					<p:toolbar>
+						<f:facet name="right">
+							<p:commandButton value="Iniciar sesión" icon="ui-icon-disk"
+								action="#{userController.newLoginUser()}" ajax="false"/>
+							<p:commandButton value="Registrar Usuario" icon="ui-icon-disk"
+								action="#{userController.saveUser()}" ajax="false" />
+						</f:facet>
+					</p:toolbar>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+
+</body>
+</html>

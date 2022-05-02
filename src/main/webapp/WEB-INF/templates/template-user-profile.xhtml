@@ -12,19 +12,16 @@
 	<ui:insert name="header">
 		<h:form>
 			<p:menubar autoDisplay="false">
+			
+				<p:menuitem value="Perfil" icon="ui-icon-document" url="/user/profile-user.xhtml"/>
 				
-				<p:menuitem value="Servicios" icon="ui-icon-pencil" url="/services/list.xhtml"/>
+				<p:menuitem value="Editar Perfil" icon="ui-icon-document" url="/user/edit-user.xhtml"/>
 				
-				<p:menuitem value="Paquetes" icon="ui-icon-document" url="/package/list.xhtml"/>
+				<p:menuitem value="Mis viajes" icon="ui-icon-document"/>
 				
-				<p:menuitem value="Nosotros" icon="ui-icon-pencil"/>
+				<p:menuitem value="Mis favoritos" url="/user/favorite-package.xhtml"/>
 				
-				<p:submenu label="Iniciar sesión" icon="ui-icon-pencil">
-					<p:menuitem icon="ui-icon-document" value="Iniciar sesión"
-						url="/user/login-user.xhtml" />
-					<p:menuitem icon="ui-icon-document" value="Registrarse"
-						url="/user/register-user.xhtml" />
-				</p:submenu>
+				<p:menuitem value="Mis Metodos de pago" icon="ui-icon-document"/>
 				
 			</p:menubar>
 		</h:form>
