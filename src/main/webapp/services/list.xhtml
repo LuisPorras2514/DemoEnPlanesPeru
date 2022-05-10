@@ -99,8 +99,10 @@
 				
 				<p:dataTable id="datTabFoodServices"
 					emptyMessage="No existen servicios registrados"
-					value="#{serviceController.foodServices}" var="service"
-					rowKey="#{service.id}" selectionMode="single"
+					value="#{serviceController.foodServices}" 
+					var="service"
+					rowKey="#{service.id}" 
+					selectionMode="single"
 					selection="#{serviceController.serviceFoodSelected}">
 					
 					<f:facet name="header">

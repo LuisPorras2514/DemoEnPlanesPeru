@@ -16,16 +16,16 @@ public class Room {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "amount_people", nullable = false)
-	private int AmountPeople;
-	
-	@Column(name = "price", nullable = false)
-	private double price;
-	
 	@ManyToOne
 	@JoinColumn(name = "service_id", nullable = false)
 	private Service service;
 	
+	@ManyToOne
+	@JoinColumn(name = "room_type_id", nullable = false)
+	private RoomType roomType;
+	
+	@Column(name = "price", nullable = false)
+	private double price;
 
 	public Long getId() {
 		return id;
@@ -43,20 +43,20 @@ public class Room {
 		this.price = price;
 	}
 
-	public int getAmountPeople() {
-		return AmountPeople;
-	}
-
-	public void setAmountPeople(int amountPeople) {
-		AmountPeople = amountPeople;
-	}
-
 	public Service getService() {
 		return service;
 	}
 
 	public void setService(Service service) {
 		this.service = service;
+	}
+
+	public RoomType getRoomType() {
+		return roomType;
+	}
+
+	public void setRoomType(RoomType roomType) {
+		this.roomType = roomType;
 	}
 	
 }

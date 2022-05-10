@@ -7,6 +7,7 @@ import javax.faces.context.FacesContext;
 public class Message {
 
 	private Message() {
+	
 	}
 
 	public static FacesContext getContext() {

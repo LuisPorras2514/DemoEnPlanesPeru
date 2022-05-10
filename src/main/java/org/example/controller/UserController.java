@@ -59,12 +59,13 @@ public class UserController implements Serializable {
 		afiliateSelected = new Affiliate();
 		users = new ArrayList<>();
 		afiliates = new ArrayList<>();
-
+		
+		favoritePackages = new ArrayList<>();
 	}
 	
 	public void getAllFavoritePackage() {
 		try {
-			favoritePackages = favoritePackageBusiness.getAll();
+			favoritePackages = favoritePackageBusiness.getAllByUser(user.getId());
 		} catch (Exception e) {
 			
 		}
@@ -176,7 +177,6 @@ public class UserController implements Serializable {
 	}
 	
 	public String editUser() {
-		user = users.get(0);
 		return  "/user/edit-user";
 	}
 	
@@ -203,11 +203,6 @@ public class UserController implements Serializable {
 	public String newLoginAfiliate() {
 		resetForm();
 		return "/user/login-afiliate";
-	}
-	
-	public String favoritePackage() {
-		user = users.get(0);
-		return "/user/favorite-package";
 	}
 
 	public User getUser() {

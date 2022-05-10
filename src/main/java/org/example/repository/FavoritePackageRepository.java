@@ -10,7 +10,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.example.entities.FavoritePackage;
-import org.example.util.Message;
 
 @Named
 public class FavoritePackageRepository implements Serializable {

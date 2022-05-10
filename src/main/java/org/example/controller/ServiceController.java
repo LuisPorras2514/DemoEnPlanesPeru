@@ -16,6 +16,7 @@ import org.example.business.ServiceBusiness;
 import org.example.business.ServiceTypeBusiness;
 import org.example.business.ProvinceBusiness;
 import org.example.business.RoomBusiness;
+import org.example.business.RoomTypeBusiness;
 import org.example.entities.Car;
 import org.example.entities.Department;
 import org.example.entities.Plate;
@@ -23,6 +24,7 @@ import org.example.entities.Service;
 import org.example.entities.ServiceType;
 import org.example.entities.Province;
 import org.example.entities.Room;
+import org.example.entities.RoomType;
 import org.example.util.Message;
 
 @Named
@@ -45,6 +47,8 @@ public class ServiceController implements Serializable {
 	private CarBusiness carBusiness;
 	@Inject
 	private PlateBusiness plateBusiness;
+	@Inject
+	private RoomTypeBusiness roomTypeBusiness;
 
 	// VARIABLES
 	private Service service;
@@ -65,14 +69,19 @@ public class ServiceController implements Serializable {
 	private ServiceType serviceType;
 	private List<ServiceType> serviceTypes;
 
-	private List<Room> rooms;
 	private Room room;
+	private List<Room> rooms;
+	private Room roomSelected;
 
-	private List<Car> cars;
+	private RoomType roomType;
+	private List<RoomType> roomTypes;
+
 	private Car car;
+	private List<Car> cars;
+	private Car carSelected;
 
-	private List<Plate> plates;
 	private Plate plate;
+	private List<Plate> plates;
 
 	private int contador;
 
@@ -99,14 +108,19 @@ public class ServiceController implements Serializable {
 		serviceType = new ServiceType();
 		serviceTypes = new ArrayList<>();
 
-		rooms = new ArrayList<>();
 		room = new Room();
+		rooms = new ArrayList<>();
+		roomSelected = new Room();
 
-		plates = new ArrayList<>();
+		roomType = new RoomType();
+		roomTypes = new ArrayList<>();
+
 		plate = new Plate();
+		plates = new ArrayList<>();
 
-		cars = new ArrayList<>();
 		car = new Car();
+		cars = new ArrayList<>();
+		carSelected = new Car();
 
 		contador = 0;
 
@@ -124,10 +138,19 @@ public class ServiceController implements Serializable {
 		}
 	}
 
+	public void getAllRoomsService() {
+		try {
+			this.rooms = roomBusiness.getAllByService(service.getId());
+		} catch (Exception e) {
+
+		}
+	}
+
 	public String newService() {
 		try {
 			this.departments = departmentBusiness.getAllDepartment();
 			this.serviceTypes = serviceTypeBusiness.getAll();
+			this.service = new Service();
 		} catch (Exception e) {
 			Message.messageError("Error ProductController:" + e.getMessage());
 		}
@@ -137,13 +160,7 @@ public class ServiceController implements Serializable {
 	public String newProductService() {
 		String view = "";
 		try {
-			if (serviceType.getId() == 1) {
-				view = "/services/insert-room";
-			} else if (serviceType.getId() == 2) {
-				view = "/services/insert-plate";
-			} else if (serviceType.getId() == 3) {
-				view = "/services/insert-car";
-			}
+
 		} catch (Exception e) {
 			Message.messageError("Error ProductController:" + e.getMessage());
 		}
@@ -151,17 +168,46 @@ public class ServiceController implements Serializable {
 	}
 
 	// GUARDAR PRODUCTOS
+	// ROOM
 
 	public void saveRoom() {
-		if (contador < 3) {
-			this.rooms.add(room);
-			this.room = new Room();
-			contador++;
-		} else {
-			Message.messageInfo("Solo puedes agregar 3 habitaciones por servicio");
+		getAllRoomsService();
+		try {
+			if (room.getId() != null) {
+				this.room.setRoomType(roomType);
+				this.roomBusiness.update(room);
+			} else {
+				this.room.setRoomType(roomType);
+				this.room.setService(service);
+				this.roomBusiness.insert(room);
+			}
+			//RestablecerDatos
+			this.roomTypes = roomTypeBusiness.getAll();
+			this.room = new Room();	
+			getAllRoomsService();
+			
+		} catch (Exception e) {
+			Message.messageError("Error ProductController:" + e.getMessage());
 		}
+		
 	}
-	
+
+	public void deleteRoom() {
+		try {
+			if (this.room != null) {
+				this.roomBusiness.delete(room);
+			} else {
+				Message.messageInfo("Debe seleccionar una habitación");
+			}
+		} catch (Exception e) {
+			Message.messageError("Error ProductController:" + e.getMessage());
+		}
+		this.roomSelected = new Room();
+
+		getAllRoomsService();
+	}
+
+	// CAR
 	public void saveCar() {
 		if (contador < 3) {
 			this.cars.add(car);
@@ -181,34 +227,26 @@ public class ServiceController implements Serializable {
 				this.service.setProvince(province);
 				this.service.setServiceType(serviceType);
 				this.serviceBusiness.update(service);
+				getAllRoomsService();
 				Message.messageInfo("Servicio actualizado exitosamente");
 			} else {
 				this.service.setStar(1);
 				this.service.setDepartment(department);
 				this.service.setProvince(province);
 				this.service.setServiceType(serviceType);
-				
 				this.serviceBusiness.insert(service);
-				
-				if(serviceType.getId() == 1) {
-					for (Room rs : rooms) {
-						rs.setService(service);
-						this.roomBusiness.insert(rs);
-					}
-				} else if (serviceType.getId() == 2) {
-					plate.setService(service);
-					this.plateBusiness.insert(plate);
-				} else if (serviceType.getId() == 3) {
-					for (Car c : cars) {
-						c.setService(service);
-						this.carBusiness.insert(c);
-					}
-				}
 				Message.messageInfo("Servicio agregado exitosamente");
 			}
-			this.getAllService();
-			this.resetForm();
-			view = "/services/list";
+
+			if (serviceType.getId() == 1) {
+				this.roomTypes = roomTypeBusiness.getAll();
+				view = "/services/insert-room";
+			} else if (serviceType.getId() == 2) {
+				view = "/services/insert-plate";
+			} else if (serviceType.getId() == 3) {
+				view = "/services/insert-car";
+			}
+
 		} catch (Exception e) {
 			Message.messageError("Error ProductController:" + e.getMessage());
 		}
@@ -325,16 +363,17 @@ public class ServiceController implements Serializable {
 		serviceHostingSelected = new Service();
 		serviceFoodSelected = new Service();
 		serviceTransportSelected = new Service();
-		
+
 		rooms = new ArrayList<>();
 		room = new Room();
-		
+
 		contador = 0;
 	}
 
 	public String listService() {
 		this.resetForm();
-		return "list.xhtml";
+		getAllService();
+		return "/services/list";
 	}
 
 	public void provinceChange() {
@@ -473,6 +512,30 @@ public class ServiceController implements Serializable {
 		this.room = room;
 	}
 
+	public Room getRoomSelected() {
+		return roomSelected;
+	}
+
+	public void setRoomSelected(Room roomSelected) {
+		this.roomSelected = roomSelected;
+	}
+
+	public RoomType getRoomType() {
+		return roomType;
+	}
+
+	public void setRoomType(RoomType roomType) {
+		this.roomType = roomType;
+	}
+
+	public List<RoomType> getRoomTypes() {
+		return roomTypes;
+	}
+
+	public void setRoomTypes(List<RoomType> roomTypes) {
+		this.roomTypes = roomTypes;
+	}
+
 	public List<Car> getCars() {
 		return cars;
 	}
@@ -487,6 +550,14 @@ public class ServiceController implements Serializable {
 
 	public void setCar(Car car) {
 		this.car = car;
+	}
+
+	public Car getCarSelected() {
+		return carSelected;
+	}
+
+	public void setCarSelected(Car carSelected) {
+		this.carSelected = carSelected;
 	}
 
 	public List<Plate> getPlates() {
