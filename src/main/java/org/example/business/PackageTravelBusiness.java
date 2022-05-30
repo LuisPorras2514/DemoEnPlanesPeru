@@ -6,8 +6,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.example.entities.PackageTravel;
@@ -17,9 +15,6 @@ import org.example.repository.PackageTravelRepository;
 public class PackageTravelBusiness implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	@PersistenceContext(unitName = "demoWeb")
-	private EntityManager em;
 
 	@Inject
 	private PackageTravelRepository packageTravelRepository;

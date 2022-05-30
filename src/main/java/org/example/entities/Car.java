@@ -12,18 +12,24 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "cars")
 public class Car {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "brand", nullable = false)
-	private String brand;
-	@Column(name = "model", nullable = false)
-	private String model;
 	@Column(name = "price", nullable = false)
 	private double price;
-	@Column(name = "capacity", nullable = false)
-	private int capacity;
+	
+	@Column(name = "car_year", nullable = false)
+	private int carYear;
+	
+	@ManyToOne
+	@JoinColumn(name = "car_brand_id", nullable = false)
+	private CarBrand carBrand;
+	
+	@ManyToOne
+	@JoinColumn(name = "car_model_id", nullable = false)
+	private CarModel carModel;
 	
 	@ManyToOne
 	@JoinColumn(name = "service_id", nullable = false)
@@ -37,20 +43,20 @@ public class Car {
 		this.id = id;
 	}
 
-	public String getBrand() {
-		return brand;
+	public CarBrand getCarBrand() {
+		return carBrand;
 	}
 
-	public void setBrand(String brand) {
-		this.brand = brand;
+	public void setCarBrand(CarBrand carBrand) {
+		this.carBrand = carBrand;
 	}
 
-	public String getModel() {
-		return model;
+	public CarModel getCarModel() {
+		return carModel;
 	}
 
-	public void setModel(String model) {
-		this.model = model;
+	public void setCarModel(CarModel carModel) {
+		this.carModel = carModel;
 	}
 
 	public double getPrice() {
@@ -61,12 +67,12 @@ public class Car {
 		this.price = price;
 	}
 
-	public int getCapacity() {
-		return capacity;
+	public int getCarYear() {
+		return carYear;
 	}
 
-	public void setCapacity(int capacity) {
-		this.capacity = capacity;
+	public void setCarYear(int carYear) {
+		this.carYear = carYear;
 	}
 
 	public Service getService() {
@@ -76,5 +82,5 @@ public class Car {
 	public void setService(Service service) {
 		this.service = service;
 	}
-	
+
 }

@@ -4,99 +4,65 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-
 <h:head></h:head>
 <body>
-
 	<ui:composition template="/WEB-INF/templates/master.xhtml">
 		<ui:define name="content">
 			<h:form id="frm">
-
+				<p:growl id="men" />
 				<p:toolbar>
 					<f:facet name="right">
 						<p:commandButton value="Añadir Habitacion" icon="ui-icon-disk"
-							action="#{serviceController.saveRoom()}"
-							ajax="true"
-							update=":frm:panGridRoom :data:datTabRooms"/>
-						
+							action="#{serviceController.saveRoom()}" ajax="true"
+							update=":frm:panGridRoom :data:datTabRooms :frm:men" />
 						<p:commandButton value="Guardar Cambios" icon="ui-icon-disk"
-							action="#{serviceController.listService()}"
-							immediate="true"
+							action="#{serviceController.listService()}" immediate="true"
 							ajax="false" />
-					
 					</f:facet>
 				</p:toolbar>
-
 				<p:panelGrid id="panGridRoom" columns="2" style="width:100%">
-				
-					<p:outputLabel for="cbRoomType" value="Tipo de habitación:"/>
-					<p:selectOneMenu id="cbRoomType" 
-						required="true" effect="drop" style="width:400px"
-						value="#{serviceController.roomType}"
+					<p:outputLabel for="cbRoomType" value="Tipo de habitación:" />
+					<p:selectOneMenu id="cbRoomType" required="true" effect="drop"
+						style="width:400px" value="#{serviceController.roomType}"
 						converter="omnifaces.SelectItemsConverter">
-						
 						<f:selectItem itemLabel="Seleccione tipo de habitación"
-							noSelectionOption="true" itemValue=""/>
-						
+							noSelectionOption="true" itemValue="" />
 						<f:selectItems value="#{serviceController.roomTypes}"
 							var="roomType" itemLabel="#{roomType.name}"
-							itemValue="#{roomType}"/>
-							
+							itemValue="#{roomType}" />
 					</p:selectOneMenu>
-						
 					<p:outputLabel value="Precio por noche:" for="txtPrice" />
-					<p:inputText id="txtPrice" 
-						required="true" style="width:400px"
-						placeholder ="Ingrese el precio por noche"
+					<p:inputText id="txtPrice" required="true" style="width:400px"
+						placeholder="Ingrese el precio por noche"
 						value="#{serviceController.room.price}" />
-					
 				</p:panelGrid>
-				
 			</h:form>
-			
 			<h:form id="data">
-				
 				<p:toolbar>
 					<f:facet name="right">
 						<p:commandButton value="Borrar Habitación" icon="ui-icon-disk"
-							action="#{serviceController.deleteRoom()}"
-							ajax="true"
-							update=":data:datTabRooms"/>
-					</f:facet>
-					
-					<f:facet name="right">
+							action="#{serviceController.deleteRoom()}" ajax="true"
+							update=":data:datTabRooms :frm:men" />
 						<p:commandButton value="Editar Habitación" icon="ui-icon-disk"
-							ajax="true"
-							update=":frm:panGridRoom"/>
+							ajax="true" update=":frm:panGridRoom" />
 					</f:facet>
-					
 				</p:toolbar>
-				
 				<p:dataTable id="datTabRooms"
 					emptyMessage="No existen habitaciones registradas"
-					value="#{serviceController.rooms}" 
-					var="room"
-					rowKey="#{room.id}"
-					selection="#{serviceController.room}"
-					selectionMode="single">
-					
+					value="#{serviceController.rooms}" var="room" rowKey="#{room.id}"
+					selection="#{serviceController.room}" selectionMode="single">
 					<f:facet name="header">
             		Habitaciones registradas
         			</f:facet>
-        			
 					<p:column headerText="Tipo de Habitación">
 						<p:outputLabel value="#{room.roomType.name}" />
 					</p:column>
-					
 					<p:column headerText="Precio por noche">
 						<p:outputLabel value="#{room.price}" />
 					</p:column>
-
 				</p:dataTable>
-				
 			</h:form>
 		</ui:define>
 	</ui:composition>
-
 </body>
 </html>

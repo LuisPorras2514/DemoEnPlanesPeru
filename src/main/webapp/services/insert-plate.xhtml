@@ -4,48 +4,36 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-
 <h:head></h:head>
 <body>
-
 	<ui:composition template="/WEB-INF/templates/master.xhtml">
 		<ui:define name="content">
 			<h:form id="frm">
-			
-				<p:growl id="men"/>
-
+				<p:growl id="men" />
 				<p:toolbar>
 					<f:facet name="right">
-						<p:commandButton value="Guardar Plato" icon="ui-icon-disk"
-							action="#{serviceController.saveService()}"
-							ajax="false"
-							/>
-						<p:commandButton value="Regresar" icon="ui-icon-disk"
-							action="#{serviceController.newService()}"
-							immediate="true"
-							ajax="false" />
+						<p:commandButton value="Guardar Cambios" icon="ui-icon-disk"
+							action="#{serviceController.savePlate()}"/>
 					</f:facet>
 				</p:toolbar>
-
 				<p:panelGrid id="panGridPlate" columns="2" style="width:100%">
-					
-					<p:outputLabel value="Precio del desayuno por dia:" for="txtDesayuno" />
-					<p:inputText id="txtDesayuno"  placeholder ="Inserte marca del auto"
-						value="#{serviceController.plate.priceBreakfast}"/>
-						
-					<p:outputLabel value="Precio del almuerzo por dia:" for="txtAlmuerzo" />
-					<p:inputText id="txtAlmuerzo"
+					<p:outputLabel value="Precio del desayuno por dia:"
+						for="txtDesayuno" />
+					<p:inputText id="txtDesayuno" style="width:400px"
+						placeholder="Inserte precio del desayuno por dia"
+						value="#{serviceController.plate.priceBreakfast}" />
+					<p:outputLabel value="Precio del almuerzo por dia:"
+						for="txtAlmuerzo" />
+					<p:inputText id="txtAlmuerzo" style="width:400px"
+						placeholder="Inserte precio del desayuno por dia"
 						value="#{serviceController.plate.priceLunch}" />
-						
 					<p:outputLabel value="Precio de la cena por dia:" for="txtCena" />
-					<p:inputText id="txtCena"
+					<p:inputText id="txtCena" style="width:400px"
+						placeholder="Inserte precio del desayuno por dia"
 						value="#{serviceController.plate.priceDinner}" />
-					
 				</p:panelGrid>
-				
 			</h:form>
 		</ui:define>
 	</ui:composition>
-
 </body>
 </html>

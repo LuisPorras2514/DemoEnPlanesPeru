@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.example.entities.Province;
@@ -16,9 +14,6 @@ import org.example.repository.ProvinceRepository;
 public class ProvinceBusiness implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	@PersistenceContext(unitName = "demoWeb")
-	private EntityManager em;
 
 	@Inject
 	private ProvinceRepository provinceRepository;

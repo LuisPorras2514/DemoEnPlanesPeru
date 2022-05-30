@@ -30,9 +30,7 @@ public class ProvinceRepository implements Serializable {
 	
 	public List<Province> findAllByDepartment(Long id) throws Exception {
 		List<Province> provinces = new ArrayList<>();
-
 		TypedQuery<Province> query = em.createQuery("FROM Province WHERE department_id = ?1", Province.class);
-		
 		query.setParameter(1, id);
 		provinces = query.getResultList();
 		return provinces;

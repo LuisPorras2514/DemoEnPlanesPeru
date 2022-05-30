@@ -12,87 +12,63 @@
 		<ui:define name="content">
 			<h:form id="frm">
 				<p:growl id="men" />
-
 				<p:toolbar>
 					<f:facet name="right">
 						<p:commandButton value="Guardar Servicio" icon="ui-icon-disk"
-							action="#{serviceController.saveService()}"
-							ajax="false" />
+							action="#{serviceController.saveService()}" ajax="false" />
 						<p:commandButton value="Regresar" icon="ui-icon-disk"
-							action="#{serviceController.listService()}"
-							immediate="true"
+							action="#{serviceController.listService()}" immediate="true"
 							ajax="false" />
 					</f:facet>
 				</p:toolbar>
-
 				<p:panelGrid id="panGridService" columns="2" style="width:100%">
-					
 					<p:outputLabel value="Nombre del Servicio:" for="txtNameService" />
-					<p:inputText id="txtNameService" 
-						required="true" maxlength="45" style="width:400px"
-						placeholder ="Ingrese el nombre de su servicio"
+					<p:inputText id="txtNameService" required="true" maxlength="45"
+						style="width:400px" placeholder="Ingrese el nombre de su servicio"
 						value="#{serviceController.service.nameService}" />
-					
-					<p:outputLabel for="cbServiceType" value="Tipo de Servicio:"/>
-					<p:selectOneMenu id="cbServiceType" 
-						required="true" effect="drop" style="width:400px"
-						value="#{serviceController.serviceType}"
+					<p:outputLabel for="cbServiceType" value="Tipo de Servicio:" />
+					<p:selectOneMenu id="cbServiceType" required="true" effect="drop"
+						style="width:400px" value="#{serviceController.serviceType}"
 						converter="omnifaces.SelectItemsConverter">
-						
 						<f:selectItem itemLabel="Seleccione tipo de servicio"
-							noSelectionOption="true" itemValue=""/>
-						
+							noSelectionOption="true" itemValue="" />
 						<f:selectItems value="#{serviceController.serviceTypes}"
 							var="serviceType" itemLabel="#{serviceType.name}"
-							itemValue="#{serviceType}"/>
-							
-					</p:selectOneMenu>				
-					
-					<p:outputLabel for="cbDepartment" value="Departamento:"/>
-					<p:selectOneMenu id="cbDepartment" 
-						required="true" effect="drop" style="width:400px"
-						value="#{serviceController.department}"
+							itemValue="#{serviceType}" />
+					</p:selectOneMenu>
+					<p:outputLabel for="cbDepartment" value="Departamento:" />
+					<p:selectOneMenu id="cbDepartment" required="true" effect="drop"
+						style="width:400px" value="#{serviceController.department}"
 						converter="omnifaces.SelectItemsConverter">
-						
 						<p:ajax listener="#{serviceController.provinceChange()}"
-							update ="cbProvincia"/>
-							
+							update="cbProvincia" />
 						<f:selectItem itemLabel="Seleccione departamento"
-							noSelectionOption="true" itemValue=""/>
-							
+							noSelectionOption="true" itemValue="" />
 						<f:selectItems value="#{serviceController.departments}"
 							var="department" itemLabel="#{department.name}"
-							itemValue="#{department}"/>
-
+							itemValue="#{department}" />
 					</p:selectOneMenu>
-
-					<p:outputLabel value="Provincia:" for="cbProvincia"/>
-					<p:selectOneMenu id="cbProvincia" 
-						required="true" effect="drop" style="width:400px"
-						value="#{serviceController.province}"
+					<p:outputLabel value="Provincia:" for="cbProvincia" />
+					<p:selectOneMenu id="cbProvincia" required="true" effect="drop"
+						style="width:400px" value="#{serviceController.province}"
 						converter="omnifaces.SelectItemsConverter">
-						
 						<f:selectItem itemLabel="Seleccione la provincia"
-							noSelectionOption="true" itemValue=""/>
+							noSelectionOption="true" itemValue="" />
 						<f:selectItems value="#{serviceController.provinces}"
 							var="province" itemLabel="#{province.name}"
 							itemValue="#{province}" />
 					</p:selectOneMenu>
-					
 					<p:outputLabel value="Dirección:" for="txtAddress" />
-					<p:inputText id="txtAddress" 
-						required="true" maxlength="100" style="width:400px"
-						placeholder ="Ingrese la dirección de su servicio"
+					<p:inputText id="txtAddress" required="true" maxlength="100"
+						style="width:400px"
+						placeholder="Ingrese la dirección de su servicio"
 						value="#{serviceController.service.address}" />
-						
 					<p:outputLabel value="Contacto (+51):" for="txtContact" />
-					<p:inputText id="txtContact" 
-						required="true" maxlength="100" style="width:400px"
-						placeholder ="Ingrese un número de contacto"
+					<p:inputText id="txtContact" required="true" maxlength="100"
+						style="width:400px" placeholder="Ingrese un número de contacto"
 						value="#{serviceController.service.contact}" />
-					
 				</p:panelGrid>
-					
+
 			</h:form>
 		</ui:define>
 	</ui:composition>

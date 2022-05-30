@@ -9,7 +9,9 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.example.business.CarBrandBusiness;
 import org.example.business.CarBusiness;
+import org.example.business.CarModelBusiness;
 import org.example.business.DepartmentBusiness;
 import org.example.business.PlateBusiness;
 import org.example.business.ServiceBusiness;
@@ -18,6 +20,8 @@ import org.example.business.ProvinceBusiness;
 import org.example.business.RoomBusiness;
 import org.example.business.RoomTypeBusiness;
 import org.example.entities.Car;
+import org.example.entities.CarBrand;
+import org.example.entities.CarModel;
 import org.example.entities.Department;
 import org.example.entities.Plate;
 import org.example.entities.Service;
@@ -49,6 +53,10 @@ public class ServiceController implements Serializable {
 	private PlateBusiness plateBusiness;
 	@Inject
 	private RoomTypeBusiness roomTypeBusiness;
+	@Inject
+	private CarBrandBusiness carBrandBusiness;
+	@Inject
+	private CarModelBusiness carModelBusiness;
 
 	// VARIABLES
 	private Service service;
@@ -80,13 +88,18 @@ public class ServiceController implements Serializable {
 	private List<Car> cars;
 	private Car carSelected;
 
+	private CarBrand carBrand;
+	private List<CarBrand> carBrands;
+
+	private CarModel carModel;
+	private List<CarModel> carModels;
+
 	private Plate plate;
 	private List<Plate> plates;
 
 	private int contador;
 
 	// METODOS
-
 	@PostConstruct
 	public void init() {
 		service = new Service();
@@ -115,6 +128,12 @@ public class ServiceController implements Serializable {
 		roomType = new RoomType();
 		roomTypes = new ArrayList<>();
 
+		carBrand = new CarBrand();
+		carBrands = new ArrayList<>();
+
+		carModel = new CarModel();
+		carModels = new ArrayList<>();
+
 		plate = new Plate();
 		plates = new ArrayList<>();
 
@@ -127,25 +146,6 @@ public class ServiceController implements Serializable {
 		getAllService();
 	}
 
-	public void getAllService() {
-		try {
-			services = serviceBusiness.getAll();
-			hostingServices = serviceBusiness.getAllHostingServices();
-			foodServices = serviceBusiness.getAllFoodServices();
-			transportServices = serviceBusiness.getAllTransportServices();
-		} catch (Exception e) {
-
-		}
-	}
-
-	public void getAllRoomsService() {
-		try {
-			this.rooms = roomBusiness.getAllByService(service.getId());
-		} catch (Exception e) {
-
-		}
-	}
-
 	public String newService() {
 		try {
 			this.departments = departmentBusiness.getAllDepartment();
@@ -154,71 +154,122 @@ public class ServiceController implements Serializable {
 		} catch (Exception e) {
 			Message.messageError("Error ProductController:" + e.getMessage());
 		}
-		return "insert.xhtml";
+		return "/services/insert";
 	}
 
-	public String newProductService() {
-		String view = "";
-		try {
-
-		} catch (Exception e) {
-			Message.messageError("Error ProductController:" + e.getMessage());
-		}
-		return view;
-	}
-
-	// GUARDAR PRODUCTOS
 	// ROOM
-
 	public void saveRoom() {
 		getAllRoomsService();
 		try {
-			if (room.getId() != null) {
-				this.room.setRoomType(roomType);
-				this.roomBusiness.update(room);
+			if (rooms.size() < 5) {
+				if (room.getId() != null) {
+					this.room.setRoomType(roomType);
+					this.roomBusiness.update(room);
+					Message.messageInfo("Habitación actualizada correctamente");
+				} else {
+					this.room.setRoomType(roomType);
+					this.room.setService(service);
+					this.roomBusiness.insert(room);
+					Message.messageInfo("Habitación guardado correctamente");
+				}
 			} else {
-				this.room.setRoomType(roomType);
-				this.room.setService(service);
-				this.roomBusiness.insert(room);
+				Message.messageInfo("Solo se puede agregar 5 habitaciones por servicio");
 			}
-			//RestablecerDatos
+			// RestablecerDatos
 			this.roomTypes = roomTypeBusiness.getAll();
-			this.room = new Room();	
+			this.room = new Room();
+			// RecogerDatos
 			getAllRoomsService();
-			
 		} catch (Exception e) {
 			Message.messageError("Error ProductController:" + e.getMessage());
 		}
-		
 	}
 
 	public void deleteRoom() {
 		try {
 			if (this.room != null) {
 				this.roomBusiness.delete(room);
+				Message.messageInfo("Habitación eliminada");
 			} else {
 				Message.messageInfo("Debe seleccionar una habitación");
 			}
 		} catch (Exception e) {
 			Message.messageError("Error ProductController:" + e.getMessage());
 		}
-		this.roomSelected = new Room();
+		getAllCarService();
+	}
 
-		getAllRoomsService();
+	// PLATE
+	public String savePlate() {
+		try {
+			if (this.plate.getId() != null) {
+				this.plate.setService(service);
+				this.plateBusiness.update(plate);
+				Message.messageInfo("Precio de platos actualizada correctamente");
+			} else {
+				this.plate.setService(service);
+				this.plateBusiness.insert(plate);
+				Message.messageInfo("Precio de platos guardado correctamente");
+			}
+			// RestablecerDatos
+			this.plates = new ArrayList<>();
+			this.plate = new Plate();
+		} catch (Exception e) {
+			Message.messageError("Error ProductController:" + e.getMessage());
+		}
+		return listService();
 	}
 
 	// CAR
 	public void saveCar() {
-		if (contador < 3) {
-			this.cars.add(car);
+		getAllCarService();
+		try {
+			if (cars.size() < 5) {
+				if (car.getId() != null) {
+					this.car.setCarBrand(carBrand);
+					this.car.setCarModel(carModel);
+					this.carBusiness.update(car);
+					Message.messageInfo("Carro actualizada correctamente");
+				} else {
+					this.car.setCarBrand(carBrand);
+					this.car.setCarModel(carModel);
+					this.car.setService(service);
+					this.carBusiness.insert(car);
+					Message.messageInfo("Carro guardado correctamente");
+				}
+			} else {
+				Message.messageInfo("Solo se puede agregar 5 habitaciones por servicio");
+			}
+			// RestablecerDatos
+			this.carBrands = carBrandBusiness.getAllCarBrand();
+			this.carModel = new CarModel();
+			this.carModels = new ArrayList<>();
 			this.car = new Car();
-			contador++;
-		} else {
-			Message.messageInfo("Solo puedes agregar 3 carros por servicio");
+			// RecogerDatos
+			getAllCarService();
+		} catch (Exception e) {
+			Message.messageError("Error ProductController:" + e.getMessage());
 		}
 	}
 
-	// GUARDAR
+	public void deleteCar() {
+		try {
+			if (this.car != null) {
+				this.carBusiness.delete(car);
+				Message.messageInfo("Carro eliminado");
+			} else {
+				Message.messageInfo("Debe seleccionar un carro");
+			}
+		} catch (Exception e) {
+			Message.messageError("Error ProductController:" + e.getMessage());
+		}
+		this.carModel = new CarModel();
+		this.carModels = new ArrayList<>();
+		this.car = new Car();
+		getAllCarService();
+	}
+
+	// SERVICE
 	public String saveService() {
 		String view = "";
 		try {
@@ -242,11 +293,17 @@ public class ServiceController implements Serializable {
 				this.roomTypes = roomTypeBusiness.getAll();
 				view = "/services/insert-room";
 			} else if (serviceType.getId() == 2) {
+				this.plates = plateBusiness.getAllByService(service.getId());
+				if (plates.size() > 0) {
+					plate = plates.get(0);
+				} else {
+					plate = new Plate();
+				}
 				view = "/services/insert-plate";
 			} else if (serviceType.getId() == 3) {
+				this.carBrands = carBrandBusiness.getAllCarBrand();
 				view = "/services/insert-car";
 			}
-
 		} catch (Exception e) {
 			Message.messageError("Error ProductController:" + e.getMessage());
 		}
@@ -314,6 +371,7 @@ public class ServiceController implements Serializable {
 				this.service = serviceHostingSelected;
 				serviceBusiness.delete(service);
 				getAllService();
+				resetForm();
 				view = "/services/list";
 			} else {
 				Message.messageInfo("Debe seleccionar un servicio");
@@ -331,6 +389,7 @@ public class ServiceController implements Serializable {
 				this.service = serviceFoodSelected;
 				serviceBusiness.delete(service);
 				getAllService();
+				resetForm();
 				view = "/services/list";
 			} else {
 				Message.messageInfo("Debe seleccionar un servicio");
@@ -348,6 +407,7 @@ public class ServiceController implements Serializable {
 				this.service = serviceTransportSelected;
 				serviceBusiness.delete(service);
 				getAllService();
+				resetForm();
 				view = "/services/list";
 			} else {
 				Message.messageInfo("Debe seleccionar un servicio");
@@ -358,14 +418,27 @@ public class ServiceController implements Serializable {
 		return view;
 	}
 
+	// GENERALS
 	public void resetForm() {
 		service = new Service();
 		serviceHostingSelected = new Service();
 		serviceFoodSelected = new Service();
 		serviceTransportSelected = new Service();
 
+		departments = new ArrayList<>();
+		department = new Department();
+
+		provinces = new ArrayList<>();
+		province = new Province();
+
+		plates = new ArrayList<>();
+		plate = new Plate();
+
 		rooms = new ArrayList<>();
 		room = new Room();
+
+		cars = new ArrayList<>();
+		car = new Car();
 
 		contador = 0;
 	}
@@ -376,14 +449,50 @@ public class ServiceController implements Serializable {
 		return "/services/list";
 	}
 
+	public void getAllService() {
+		try {
+			services = serviceBusiness.getAll();
+			hostingServices = serviceBusiness.getAllHostingServices();
+			foodServices = serviceBusiness.getAllFoodServices();
+			transportServices = serviceBusiness.getAllTransportServices();
+		} catch (Exception e) {
+			Message.messageError("Error ProductController:" + e.getMessage());
+		}
+	}
+
+	public void getAllRoomsService() {
+		try {
+			this.rooms = roomBusiness.getAllByService(service.getId());
+		} catch (Exception e) {
+			Message.messageError("Error ProductController:" + e.getMessage());
+		}
+	}
+
+	public void getAllCarService() {
+		try {
+			this.cars = carBusiness.getAllByService(service.getId());
+		} catch (Exception e) {
+			Message.messageError("Error ProductController:" + e.getMessage());
+		}
+	}
+
 	public void provinceChange() {
 		try {
 			this.provinces = provinceBusiness.getAllProvinceByDepartment(department.getId());
 		} catch (Exception e) {
-			Message.messageInfo("Error en revoger datos");
+			Message.messageInfo("Error en recoger datos");
 		}
 	}
 
+	public void carBrandChange() {
+		try {
+			this.carModels = carModelBusiness.getAllCarModelByBrand(carBrand.getId());
+		} catch (Exception e) {
+			Message.messageInfo("Error en recoger datos");
+		}
+	}
+
+	// GETTERS AND SETTERS
 	public Service getService() {
 		return service;
 	}
@@ -558,6 +667,38 @@ public class ServiceController implements Serializable {
 
 	public void setCarSelected(Car carSelected) {
 		this.carSelected = carSelected;
+	}
+
+	public CarBrand getCarBrand() {
+		return carBrand;
+	}
+
+	public void setCarBrand(CarBrand carBrand) {
+		this.carBrand = carBrand;
+	}
+
+	public List<CarBrand> getCarBrands() {
+		return carBrands;
+	}
+
+	public void setCarBrands(List<CarBrand> carBrands) {
+		this.carBrands = carBrands;
+	}
+
+	public CarModel getCarModel() {
+		return carModel;
+	}
+
+	public void setCarModel(CarModel carModel) {
+		this.carModel = carModel;
+	}
+
+	public List<CarModel> getCarModels() {
+		return carModels;
+	}
+
+	public void setCarModels(List<CarModel> carModels) {
+		this.carModels = carModels;
 	}
 
 	public List<Plate> getPlates() {
